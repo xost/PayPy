@@ -13,7 +13,6 @@ import copy
 class MainFrame(wx.Frame):
   """
   """
-
   def __init__(self,title,size,schem):
     super(MainFrame,self).__init__(None,title=title,size=size)
     self.__date__=app.date
