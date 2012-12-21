@@ -192,7 +192,7 @@ class MainFrame(wx.Frame):
     if not isinstance(node,dict):
       value=self.__calc__.calc(self.__data__,keys[:])
       node=wx.TextCtrl(self.__panel__,-1,str(value),size)
-      node.Bind(wx.EVT_LEFT_DCLICK,self.onQuit)
+      node.Bind(wx.EVT_LEFT_DCLICK,lambda event: self.onQuit(event))
       if not keys in self.__schem__['editable']:
         node.SetEditable(False)
       return node
