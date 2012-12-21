@@ -33,3 +33,12 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# ZODB database
+*.db
+*.lock
+*.index
+*.tmp
+
+#Python compiled
+*.pyc

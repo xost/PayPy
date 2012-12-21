@@ -8,6 +8,7 @@ import calculations
 import datetime
 import time
 import model
+import copy
 
 class MainFrame(wx.Frame):
   """
@@ -20,21 +21,21 @@ class MainFrame(wx.Frame):
     self.__data__=self.__paypy__.getdata(self.__date__)
     self.__schem__=schem
     self.__calc__=calculations.Calculations()
+    self.__editable__=[['inbal']]
+
     self.initUI()
+
+    self.Centre()
+    self.Show()
 
   __call__=__init__
 
   def initUI(self):
     alldays=self.__paypy__.alldays()
     alldays.sort(reverse=True)
-    fieldSize=(130,24)
+    fieldSize=(150,24)
 
-###---BEGIN:Lists of widgets
-    self.text={}
-    self.text['in']={}
-    self.text['out']={}
     box={}
-###---END:List of widgets
 
     menuBar=wx.MenuBar()
     fileMenu=wx.Menu()
@@ -47,7 +48,7 @@ class MainFrame(wx.Frame):
     self.__panel__=wx.Panel(self)
     mainbox=wx.BoxSizer(wx.VERTICAL)
     # generate TextCtrl fields as 'model'
-    self.text=self.__GenModel__(model.model,[],fieldSize)
+    self.text=self.__GenModel__(copy.deepcopy(model.model),[],fieldSize)
 
 ###---BEGIN:RUB:INBAL
     self.combo1=wx.ComboBox(self.__panel__,0,self.__date__,choices=alldays)
@@ -86,9 +87,6 @@ class MainFrame(wx.Frame):
 
     label8=wx.StaticText(self.__panel__,label='mbk')
     label9=wx.StaticText(self.__panel__,label='client')
-    #label7=wx.StaticText(self.__panel__,label='oblig')
-    #self.text7=wx.TextCtrl(self.__panel__,'incom oblig')
-    #self.text7.SetEditable(False)
 
     incom_3_static_box=wx.StaticBox(self.__panel__,label='***')
     incom_3_static_box_sizer=wx.StaticBoxSizer(incom_3_static_box,wx.VERTICAL)
@@ -180,11 +178,8 @@ class MainFrame(wx.Frame):
     mainbox.AddMany((box['inbal'],box['incom'],box['outgo'],box['outbal']))
 
     for key in box.keys():
-      if not key in self.__schem__:
+      if not key in self.__schem__['blocks']:
         mainbox.Show(box[key],False,True)
-
-    #mainbox.Show(box['inbal'],False,True)    # - hide 'inbal' box sizer
-    #mainbox.Show(box['incom'],False,True)    # - hide 'incom' box sizer
 
     self.__panel__.SetSizer(mainbox)
     self.__panel__.Layout()
@@ -193,20 +188,19 @@ class MainFrame(wx.Frame):
     self.Bind(wx.EVT_MENU,self.onQuit,fItem)
 ###---END:BINDINGS
 
-    self.Centre()
-    self.Show()
-
   def __GenModel__(self,node,keys,size):
     if not isinstance(node,dict):
-      node=wx.TextCtrl(self.__panel__,-1,'0.0',size)
-      node.SetEditable(False)
-      print keys
+      value=self.__calc__.calc(self.__data__,keys[:])
+      node=wx.TextCtrl(self.__panel__,-1,str(value),size)
+      node.Bind(wx.EVT_LEFT_DCLICK,self.onQuit)
+      if not keys in self.__schem__['editable']:
+        node.SetEditable(False)
       return node
     else:
-      keys=[]
-      for item in node:
-        keys.append(item)
-        node[item]=self.__GenModel__(node[item],keys,size)
+      for key in node:
+        keys.append(key)
+        node[key]=self.__GenModel__(node[key],keys,size)
+        keys.pop()
     return node
 
   def Update(self):
