@@ -20,7 +20,6 @@ class MainFrame(wx.Frame):
     self.data=self.paypy.getdata(self.date)
     self.__schem__=schem
     self.calc=calculations.Calculations()
-    self.__editable__=[['inbal']]
 
     self.initUI()
 
@@ -198,6 +197,7 @@ class MainFrame(wx.Frame):
       else:
         #esli pole sostoit iz odnogo elementa
         node.Bind(wx.EVT_TEXT_ENTER,lambda event, k=keys[:]: self.onEnter(event,k))
+        print keys
       return node
     else:
       for key in node:
@@ -209,6 +209,7 @@ class MainFrame(wx.Frame):
   def onEnter(self,event,keys):
     node=self.calc.findnode(self.data,keys)
     text=self.calc.findnode(self.text,keys)
+    print text.GetValue()
     try:
       value=float(text.GetValue())
     except:
@@ -216,7 +217,7 @@ class MainFrame(wx.Frame):
     else:
       dt=datetime.datetime.now()
       dt_str='%s:%s:%s' % (dt.hour,dt.minute,dt.second)
-      node[0]={'value':value,'time':time,'description':'single value'}
+      node=[{'value':value,'time':time,'description':'single value'}]
       self.paypy.setdata(self.date,self.data)
       self.Update(self.text,[])
 
