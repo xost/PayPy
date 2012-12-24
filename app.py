@@ -2,7 +2,7 @@
 
 from model import model
 
-def r(node,keys):
+def r(node,keys=[]):
   if not isinstance(node,dict):
     print keys
   else:
@@ -11,4 +11,4 @@ def r(node,keys):
       r(node[key],keys)
       keys.pop()
 
-r(model,[])
+r(model)

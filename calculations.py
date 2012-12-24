@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 class Calculations(object):
 
@@ -15,13 +14,13 @@ class Calculations(object):
     except (KeyError, IndexError):
       return 0.0
 
-  def __findnode__(self,data,keys):
+  def findnode(self,data,keys):
     try:
       key=keys.pop(0)
     except IndexError:
       return data
     else:
-      return self.__findnode__(data[key],keys)
+      return self.findnode(data[key],keys)
 
   def __calcnode__(self,data):
     result=0.0
@@ -36,7 +35,7 @@ class Calculations(object):
     return result
 
   def calc(self,data,keys):
-    return self.__calcnode__(self.__findnode__(data,keys))
+    return self.__calcnode__(self.findnode(data,keys))
 
 if __name__=='__main__':
   import paypydb

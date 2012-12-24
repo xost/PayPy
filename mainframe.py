@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 import wx
 import paypy as app
@@ -9,6 +8,7 @@ import datetime
 import time
 import model
 import copy
+import datadialog
 
 class MainFrame(wx.Frame):
   """
@@ -191,7 +191,7 @@ class MainFrame(wx.Frame):
     if not isinstance(node,dict):
       value=self.__calc__.calc(self.__data__,keys[:])
       node=wx.TextCtrl(self.__panel__,-1,str(value),size)
-      node.Bind(wx.EVT_LEFT_DCLICK,lambda event: self.onQuit(event))
+      node.Bind(wx.EVT_LEFT_DCLICK,lambda event, k=keys[:]: self.onDClk(event,k))
       if not keys in self.__schem__['editable']:
         node.SetEditable(False)
       return node
@@ -201,6 +201,9 @@ class MainFrame(wx.Frame):
         node[key]=self.__GenModel__(node[key],keys,size)
         keys.pop()
     return node
+
+  def onDClk(self,event,keys):
+    d=datadialog.DataDialog(self,str(keys),(400,600),self.__data__,keys,self.__paypy__)
 
   def Update(self):
     pass
