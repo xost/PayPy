@@ -4,7 +4,7 @@ import usersdb
 import wx
 import mainframe
 
-class AuthFrame(wx.Frame):
+class AuthFrame(wx.Dialog):
   def __init__(self,title,size):
     super(AuthFrame,self).__init__(None,title=title,size=size)
     self.__users__=usersdb.UsersDB()
