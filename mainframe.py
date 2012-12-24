@@ -15,11 +15,11 @@ class MainFrame(wx.Frame):
   """
   def __init__(self,title,size,schem):
     super(MainFrame,self).__init__(None,title=title,size=size)
-    self.__date__=app.date
-    self.__paypy__=paypydb.PayPyDB(self.__date__,'PayPy.db','')
-    self.__data__=self.__paypy__.getdata(self.__date__)
+    self.date=app.date
+    self.paypy=paypydb.PayPyDB(self.date,'PayPy.db','')
+    self.data=self.paypy.getdata(self.date)
     self.__schem__=schem
-    self.__calc__=calculations.Calculations()
+    self.calc=calculations.Calculations()
     self.__editable__=[['inbal']]
 
     self.initUI()
@@ -30,7 +30,7 @@ class MainFrame(wx.Frame):
   __call__=__init__
 
   def initUI(self):
-    alldays=self.__paypy__.alldays()
+    alldays=self.paypy.alldays()
     alldays.sort(reverse=True)
     fieldSize=(150,24)
 
@@ -50,7 +50,7 @@ class MainFrame(wx.Frame):
     self.text=self.__GenModel__(copy.deepcopy(model.model),[],fieldSize)
 
 ###---BEGIN:RUB:INBAL
-    self.combo1=wx.ComboBox(self.__panel__,0,self.__date__,choices=alldays)
+    self.combo1=wx.ComboBox(self.__panel__,0,self.date,choices=alldays)
     label1=wx.StaticText(self.__panel__,label='incomming balance:')
     box['inbal']=wx.BoxSizer(wx.HORIZONTAL)
     box['inbal'].Add(self.combo1)
@@ -189,7 +189,7 @@ class MainFrame(wx.Frame):
 
   def __GenModel__(self,node,keys,size):
     if not isinstance(node,dict):
-      value=self.__calc__.calc(self.__data__,keys[:])
+      value=self.calc.calc(self.data,keys[:])
       node=wx.TextCtrl(self.__panel__,-1,str(value),size)
       node.Bind(wx.EVT_LEFT_DCLICK,lambda event, k=keys[:]: self.onDClk(event,k))
       if not keys in self.__schem__['editable']:
@@ -203,11 +203,20 @@ class MainFrame(wx.Frame):
     return node
 
   def onDClk(self,event,keys):
-    d=datadialog.DataDialog(self,str(keys),(400,600),self.__data__,keys,self.__paypy__)
+    datadialog.DataDialog(self,str(keys),(450,600),keys)
+    self.Update(self.text,[])
 
-  def Update(self):
-    pass
+  def Update(self,node,keys):
+    if not isinstance(node,dict):
+      print keys
+      value=self.calc.calc(self.data,keys[:])
+      node.SetValue(str(value))
+    else:
+      for key in node:
+        keys.append(key)
+        node[key]=self.Update(node[key],keys)
+        keys.pop()
 
   def onQuit(self,e):
-    del(self.__data__)
+    del(self.data)
     self.Close()
