@@ -1,4 +1,0 @@
-PayPy
-=====
-
-PayPy (Payment)

@@ -36,13 +36,13 @@ class MainFrame(wx.Frame):
 
     box={}
 
-    menuBar=wx.MenuBar()
-    fileMenu=wx.Menu()
-    fItem=fileMenu.Append(wx.ID_EXIT,'Exit','Exit from \'PayPy\'')
-    menuBar.Append(fileMenu,'&File')
+    #menuBar=wx.MenuBar()
+    #fileMenu=wx.Menu()
+    #fItem=fileMenu.Append(wx.ID_EXIT,'Exit','Exit from \'PayPy\'')
+    #menuBar.Append(fileMenu,'&File')
 
-    self.SetMenuBar(menuBar)
-    self.statusBar=self.CreateStatusBar()
+    #self.SetMenuBar(menuBar)
+    #self.statusBar=self.CreateStatusBar()
 
     self.__panel__=wx.Panel(self)
     mainbox=wx.BoxSizer(wx.VERTICAL)
@@ -184,16 +184,20 @@ class MainFrame(wx.Frame):
     self.__panel__.Layout()
 
 ###---BEGIN:BINDINGS
-    self.Bind(wx.EVT_MENU,self.onQuit,fItem)
+    #self.Bind(wx.EVT_MENU,self.onQuit,fItem)
 ###---END:BINDINGS
 
   def __GenModel__(self,node,keys,size):
     if not isinstance(node,dict):
       value=self.calc.calc(self.data,keys[:])
-      node=wx.TextCtrl(self.__panel__,-1,str(value),size)
-      node.Bind(wx.EVT_LEFT_DCLICK,lambda event, k=keys[:]: self.onDClk(event,k))
+      node=wx.TextCtrl(self.__panel__,-1,str(value),size,style=wx.TE_PROCESS_ENTER)
       if not keys in self.__schem__['editable']:
+        #esli pole razvorachivaetsya
         node.SetEditable(False)
+        node.Bind(wx.EVT_LEFT_DCLICK,lambda event, k=keys[:]: self.onDClk(event,k))
+      else:
+        #esli pole sostoit iz odnogo elementa
+        node.Bind(wx.EVT_TEXT_ENTER,lambda event, k=keys[:]: self.onEnter(event,k))
       return node
     else:
       for key in node:
@@ -202,20 +206,34 @@ class MainFrame(wx.Frame):
         keys.pop()
     return node
 
+  def onEnter(self,event,keys):
+    node=self.calc.findnode(self.data,keys)
+    text=self.calc.findnode(self.text,keys)
+    try:
+      value=float(text.GetValue())
+    except:
+      pass
+    else:
+      dt=datetime.datetime.now()
+      dt_str='%s:%s:%s' % (dt.hour,dt.minute,dt.second)
+      node[0]={'value':value,'time':time,'description':'single value'}
+      self.paypy.setdata(self.date,self.data)
+      self.Update(self.text,[])
+
   def onDClk(self,event,keys):
     datadialog.DataDialog(self,str(keys),(450,600),keys)
     self.Update(self.text,[])
 
   def Update(self,node,keys):
     if not isinstance(node,dict):
-      print keys
       value=self.calc.calc(self.data,keys[:])
       node.SetValue(str(value))
     else:
       for key in node:
         keys.append(key)
-        node[key]=self.Update(node[key],keys)
+        self.Update(node[key],keys)
         keys.pop()
+
 
   def onQuit(self,e):
     del(self.data)

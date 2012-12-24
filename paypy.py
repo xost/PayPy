@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+import wxversion
+wxversion.select(wxversion.getInstalled()[0])
 import wx
 import authframe
 import datetime
