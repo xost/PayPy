@@ -48,13 +48,20 @@ class MainFrame(wx.Frame):
     # generate TextCtrl fields as 'model'
     self.text=self.__GenModel__(copy.deepcopy(model.model),[],fieldSize)
 
+    self.calc.calcoutbal(self.data,self.paypy.obpday)
+    self.paypy.setdata(self.date,self.data)
+    self.Update(self.text,[])
+
 ###---BEGIN:RUB:INBAL
     self.combo1=wx.ComboBox(self.__panel__,0,self.date,choices=alldays)
     label1=wx.StaticText(self.__panel__,label='incomming balance:')
+    btnSaveInbal=wx.Button(self.__panel__,-1,'Save')
+    btnSaveInbal.Bind(wx.EVT_BUTTON,lambda event, k=['inbal']: self.onEnter(event,['inbal']))
     box['inbal']=wx.BoxSizer(wx.HORIZONTAL)
     box['inbal'].Add(self.combo1)
     box['inbal'].Add(label1)
     box['inbal'].Add(self.text['inbal'])
+    box['inbal'].Add(btnSaveInbal)
 ###---END:RUB:INBAL
 
 ###---BEGIN:RUB:INCOM
@@ -191,13 +198,10 @@ class MainFrame(wx.Frame):
       value=self.calc.calc(self.data,keys[:])
       node=wx.TextCtrl(self.__panel__,-1,str(value),size,style=wx.TE_PROCESS_ENTER)
       if not keys in self.__schem__['editable']:
-        #esli pole razvorachivaetsya
         node.SetEditable(False)
         node.Bind(wx.EVT_LEFT_DCLICK,lambda event, k=keys[:]: self.onDClk(event,k))
       else:
-        #esli pole sostoit iz odnogo elementa
         node.Bind(wx.EVT_TEXT_ENTER,lambda event, k=keys[:]: self.onEnter(event,k))
-        print keys
       return node
     else:
       for key in node:
@@ -207,17 +211,22 @@ class MainFrame(wx.Frame):
     return node
 
   def onEnter(self,event,keys):
-    node=self.calc.findnode(self.data,keys)
-    text=self.calc.findnode(self.text,keys)
-    print text.GetValue()
+    text=self.calc.findnode(self.text,keys[:])
+    node=self.calc.findnode(self.data,keys[:])
     try:
       value=float(text.GetValue())
-    except:
+    except ValueError:
       pass
     else:
       dt=datetime.datetime.now()
       dt_str='%s:%s:%s' % (dt.hour,dt.minute,dt.second)
-      node=[{'value':value,'time':time,'description':'single value'}]
+      try:
+        node.pop()
+      except:
+        node.append({'value':value,'time':dt_str,'description':'single value'})
+      else:
+        node.append({'value':value,'time':dt_str,'description':'single value'})
+      self.calc.calcoutbal(self.data)
       self.paypy.setdata(self.date,self.data)
       self.Update(self.text,[])
 

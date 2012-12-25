@@ -77,10 +77,7 @@ class DataDialog(wx.Dialog):
       dt_str='%s:%s:%s' % (dt.hour,dt.minute,dt.second)
       self.dataList.Append((value,dt_str,descr))
       self.node.append({'value':value,'time':dt_str,'description':descr})
-      inbal=self.parent.calc.inbal(self.parent.data)
-      _in=self.parent.calc.calc(self.parent.data,['in'])
-      out=self.parent.calc.calc(self.parent.data,['out'])
-      self.parent.data['outbal']=[{'value':inbal+_in-out,'time':dt_str,'description':'single value'}]
+      self.parent.calc.calcoutbal(self.parent.data)
       self.parent.paypy.setdata(self.parent.date,self.parent.data)
       self.text.SetValue('')
       self.descr.SetValue('')

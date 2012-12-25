@@ -19,9 +19,17 @@ class PayPyDB(PersistentMapping):
     if not date in self.__dbroot__.keys():                 # if today date is exists then fill the 'data' attr
       self.__dbroot__[date]=copy.deepcopy(model.model)      # create database and 'newday' with zero data
       prevday=self.prevday()
+      self.obpday=0.0
       if prevday:
+        self.obpday=self.__dbroot__[prevday]['outbal'][0]['value']
         self.__dbroot__[date]['outbal']=copy.deepcopy(self.__dbroot__[prevday]['outbal'])
       self.commit()                                          # commit changes
+    else:
+      prevday=self.prevday()
+      if prevday:
+        self.obpday=self.__dbroot__[prevday]['outbal'][0]['value']
+      else:
+        self.obpday=0.0
 
   def __del__(self):
     self.__connection__.close()

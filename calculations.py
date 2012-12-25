@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+import datetime
+
 class Calculations(object):
 
   def inbal(self,data):
@@ -13,6 +15,17 @@ class Calculations(object):
       return data['outbal'][0]['value']
     except (KeyError, IndexError):
       return 0.0
+
+  def calcoutbal(self,data,obpday):
+    inbal=self.calc(data,['inbal'])
+    _in=self.calc(data,['in'])
+    out=self.calc(data,['out'])
+    dt=datetime.datetime.now()
+    dt_str='%s:%s:%s' % (dt.hour,dt.minute,dt.second)
+    data['outbal']=[{'value':inbal+_in+obpday-out,'time':dt_str,'description':'single value'}]
+
+  def intotal(self,data):
+    pass
 
   def findnode(self,data,keys):
     try:

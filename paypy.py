@@ -12,3 +12,4 @@ if __name__ == '__main__':
   app.MainLoop()
 else:
   date=datetime.datetime.now().strftime('%Y/%m/%d')
+  #date='2012/12/27'
