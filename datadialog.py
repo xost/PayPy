@@ -20,13 +20,13 @@ class DataDialog(wx.Dialog):
   def initUI(self):
 
     listSizer=wx.BoxSizer(wx.VERTICAL)
-    self.dataList=wx.ListCtrl(self,-1,style=wx.LC_REPORT,size=(450,400))
+    self.dataList=wx.ListCtrl(self,-1,style=wx.LC_REPORT,size=(394,200))
     self.dataList.InsertColumn(0,'value')
-    self.dataList.SetColumnWidth(0,150)
+    self.dataList.SetColumnWidth(0,130)
     self.dataList.InsertColumn(1,'time')
-    self.dataList.SetColumnWidth(1,150)
+    self.dataList.SetColumnWidth(1,60)
     self.dataList.InsertColumn(2,'description')
-    self.dataList.SetColumnWidth(2,150)
+    self.dataList.SetColumnWidth(2,200)
     for i in xrange(len(self.node)):
       self.dataList.Append((self.node[i]['value'],self.node[i]['time'],self.node[i]['description']))
     listSizer.Add(self.dataList)
@@ -77,7 +77,7 @@ class DataDialog(wx.Dialog):
       dt_str='%s:%s:%s' % (dt.hour,dt.minute,dt.second)
       self.dataList.Append((value,dt_str,descr))
       self.node.append({'value':value,'time':dt_str,'description':descr})
-      self.parent.calc.calcoutbal(self.parent.data)
+      self.parent.calc.calcoutbal(self.parent.data,self.parent.paypy.obpday)
       self.parent.paypy.setdata(self.parent.date,self.parent.data)
       self.text.SetValue('')
       self.descr.SetValue('')

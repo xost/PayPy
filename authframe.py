@@ -50,7 +50,7 @@ class AuthFrame(wx.Frame):
   def onOk(self,e):
     user=self.loginField.GetValue()
     if self.__users__.auth(user,self.passwdField.GetValue()):
-      mainframe.MainFrame('PayPy - Grand Invest Bank',(700,500),self.__users__.schem(user))
+      mainframe.MainFrame('PayPy - Grand Invest Bank',(500,400),self.__users__.schem(user))
       self.Destroy()
     self.accessSizer.Show(self.label0,True)
 

@@ -21,13 +21,13 @@ class PayPyDB(PersistentMapping):
       prevday=self.prevday()
       self.obpday=0.0
       if prevday:
-        self.obpday=self.__dbroot__[prevday]['outbal'][0]['value']
-        self.__dbroot__[date]['outbal']=copy.deepcopy(self.__dbroot__[prevday]['outbal'])
+        self.obpday=self.__dbroot__[prevday]['rub']['outbal'][0]['value']
+        self.__dbroot__[date]['rub']['outbal']=copy.deepcopy(self.__dbroot__[prevday]['rub']['outbal'])
       self.commit()                                          # commit changes
     else:
       prevday=self.prevday()
       if prevday:
-        self.obpday=self.__dbroot__[prevday]['outbal'][0]['value']
+        self.obpday=self.__dbroot__[prevday]['rub']['outbal'][0]['value']
       else:
         self.obpday=0.0
 
@@ -43,17 +43,6 @@ class PayPyDB(PersistentMapping):
     self.__dbroot__[date]=data
     self.commit()
 
-#  def totalbyitem(self,key,total,date):
-#   """napisat recursivnuyu func dlya polucheniya 'total' po zadannym klucham
-#   """
-#   pass
-#
-#  def total(self,key,date):
-#    total=0.0
-#    for item in self.__dbroot__[date][key].itervalues():
-#      for value in item:
-#        total+=value['value']
-#    return total
   def prevday(self):
     days=self.__dbroot__.keys()
     days.sort(reverse=True)

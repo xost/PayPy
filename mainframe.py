@@ -23,6 +23,10 @@ class MainFrame(wx.Frame):
 
     self.initUI()
 
+    self.timer=wx.Timer()
+    self.timer.Bind(wx.EVT_TIMER,self.onTimer)
+    self.timer.Start(5000)
+
     self.Centre()
     self.Show()
 
@@ -31,7 +35,7 @@ class MainFrame(wx.Frame):
   def initUI(self):
     alldays=self.paypy.alldays()
     alldays.sort(reverse=True)
-    fieldSize=(150,24)
+    fieldSize=(200,24)
 
     box={}
 
@@ -39,7 +43,6 @@ class MainFrame(wx.Frame):
     #fileMenu=wx.Menu()
     #fItem=fileMenu.Append(wx.ID_EXIT,'Exit','Exit from \'PayPy\'')
     #menuBar.Append(fileMenu,'&File')
-
     #self.SetMenuBar(menuBar)
     #self.statusBar=self.CreateStatusBar()
 
@@ -52,7 +55,7 @@ class MainFrame(wx.Frame):
     self.paypy.setdata(self.date,self.data)
     self.Update(self.text,[])
 
-###---BEGIN:RUB:INBAL
+    ###---BEGIN:RUB:INBAL
     self.combo1=wx.ComboBox(self.__panel__,0,self.date,choices=alldays)
     label1=wx.StaticText(self.__panel__,label='incomming balance:')
     btnSaveInbal=wx.Button(self.__panel__,-1,'Save')
@@ -60,11 +63,11 @@ class MainFrame(wx.Frame):
     box['inbal']=wx.BoxSizer(wx.HORIZONTAL)
     box['inbal'].Add(self.combo1)
     box['inbal'].Add(label1)
-    box['inbal'].Add(self.text['inbal'])
+    box['inbal'].Add(self.text['rub']['inbal'])
     box['inbal'].Add(btnSaveInbal)
-###---END:RUB:INBAL
+    ###---END:RUB:INBAL
 
-###---BEGIN:RUB:INCOM
+    ###---BEGIN:RUB:INCOM
     box['incom']=wx.BoxSizer(wx.HORIZONTAL)
 
     incom_static_box=wx.StaticBox(self.__panel__,100,label='INCOM')
@@ -76,9 +79,9 @@ class MainFrame(wx.Frame):
 
     incom_reises_static_box=wx.StaticBox(self.__panel__,label='***')
     incom_reises_static_box_sizer=wx.StaticBoxSizer(incom_reises_static_box,wx.VERTICAL)
-    incom_reises_static_box_sizer.AddMany([label2,self.text['in']['reises'],
-                                           label3,self.text['in']['inkas'],
-                                           label4,self.text['in']['veks']])
+    incom_reises_static_box_sizer.AddMany([label2,self.text['rub']['in']['reises'],
+                                           label3,self.text['rub']['in']['inkas'],
+                                           label4,self.text['rub']['in']['veks']])
 
     label5=wx.StaticText(self.__panel__,label='valuta')
     label6=wx.StaticText(self.__panel__,label='gko')
@@ -86,17 +89,17 @@ class MainFrame(wx.Frame):
 
     incom_mmvb_static_box=wx.StaticBox(self.__panel__,label='MMVB')
     incom_mmvb_static_box_sizer=wx.StaticBoxSizer(incom_mmvb_static_box,wx.VERTICAL)
-    incom_mmvb_static_box_sizer.AddMany([label5,self.text['in']['mmvb_val'],
-                                         label6,self.text['in']['mmvb_gko'],
-                                         label7,self.text['in']['mmvb_oblig']])
+    incom_mmvb_static_box_sizer.AddMany([label5,self.text['rub']['in']['mmvb_val'],
+                                         label6,self.text['rub']['in']['mmvb_gko'],
+                                         label7,self.text['rub']['in']['mmvb_oblig']])
 
     label8=wx.StaticText(self.__panel__,label='mbk')
     label9=wx.StaticText(self.__panel__,label='client')
 
     incom_3_static_box=wx.StaticBox(self.__panel__,label='***')
     incom_3_static_box_sizer=wx.StaticBoxSizer(incom_3_static_box,wx.VERTICAL)
-    incom_3_static_box_sizer.AddMany([label8,self.text['in']['mbk'],
-                                      label9,self.text['in']['clients']])
+    incom_3_static_box_sizer.AddMany([label8,self.text['rub']['in']['mbk'],
+                                      label9,self.text['rub']['in']['clients']])
 
     label10=wx.StaticText(self.__panel__,label='clients')
     label11=wx.StaticText(self.__panel__,label='valuta')
@@ -104,14 +107,14 @@ class MainFrame(wx.Frame):
 
     incom_other_static_box=wx.StaticBox(self.__panel__,label='OTHER')
     incom_other_static_box_sizer=wx.StaticBoxSizer(incom_other_static_box,wx.VERTICAL)
-    incom_other_static_box_sizer.AddMany([label10,self.text['in']['other_clients'],
-                                          label11,self.text['in']['other_val'],
-                                          label12,self.text['in']['other_cenbum']])
+    incom_other_static_box_sizer.AddMany([label10,self.text['rub']['in']['other_clients'],
+                                          label11,self.text['rub']['in']['other_val'],
+                                          label12,self.text['rub']['in']['other_cenbum']])
 
-    incom_static_box_sizer.Add(incom_reises_static_box_sizer,wx.EXPAND)
-    incom_static_box_sizer.Add(incom_mmvb_static_box_sizer,wx.EXPAND)
-    incom_static_box_sizer.Add(incom_3_static_box_sizer,wx.EXPAND)
-    incom_static_box_sizer.Add(incom_other_static_box_sizer,wx.EXPAND)
+    incom_static_box_sizer.Add(incom_reises_static_box_sizer,proportion=1)
+    incom_static_box_sizer.Add(incom_mmvb_static_box_sizer,proportion=1)
+    incom_static_box_sizer.Add(incom_3_static_box_sizer,proportion=1)
+    incom_static_box_sizer.Add(incom_other_static_box_sizer,proportion=1)
 
     box['incom'].Add(incom_static_box_sizer,wx.EXPAND|wx.ALL)
 ###---END:RUB:INCOM
@@ -128,9 +131,9 @@ class MainFrame(wx.Frame):
 
     outgo_1_static_box=wx.StaticBox(self.__panel__,label='***')
     outgo_1_static_box_sizer=wx.wx.StaticBoxSizer(outgo_1_static_box,wx.VERTICAL)
-    outgo_1_static_box_sizer.AddMany([label13,self.text['out']['clients'],
-                                      label14,self.text['out']['plan'],
-                                      label15,self.text['out']['mbk']])
+    outgo_1_static_box_sizer.AddMany([label13,self.text['rub']['out']['clients'],
+                                      label14,self.text['rub']['out']['plan'],
+                                      label15,self.text['rub']['out']['mbk']])
 
     label16=wx.StaticText(self.__panel__,label='valuta')
     label17=wx.StaticText(self.__panel__,label='gko')
@@ -138,9 +141,9 @@ class MainFrame(wx.Frame):
 
     outgo_2_static_box=wx.StaticBox(self.__panel__,label='MMVB')
     outgo_2_static_box_sizer=wx.wx.StaticBoxSizer(outgo_2_static_box,wx.VERTICAL)
-    outgo_2_static_box_sizer.AddMany([label16,self.text['out']['mmvb_val'],
-                                      label17,self.text['out']['mmvb_gko'],
-                                      label18,self.text['out']['mmvb_oblig']])
+    outgo_2_static_box_sizer.AddMany([label16,self.text['rub']['out']['mmvb_val'],
+                                      label17,self.text['rub']['out']['mmvb_gko'],
+                                      label18,self.text['rub']['out']['mmvb_oblig']])
 
     label19=wx.StaticText(self.__panel__,label='gib')
     label20=wx.StaticText(self.__panel__,label='other')
@@ -149,11 +152,11 @@ class MainFrame(wx.Frame):
     outgo_3_box_sizer=wx.BoxSizer(wx.VERTICAL)
     outgo_3_static_box=wx.StaticBox(self.__panel__,label='VEKSEL')
     outgo_3_static_box_sizer=wx.wx.StaticBoxSizer(outgo_3_static_box,wx.VERTICAL)
-    outgo_3_static_box_sizer.AddMany([label19,self.text['out']['veks_gib'],
-                                      label20,self.text['out']['veks_other']])
+    outgo_3_static_box_sizer.AddMany([label19,self.text['rub']['out']['veks_gib'],
+                                      label20,self.text['rub']['out']['veks_other']])
     outgo_3_box_sizer.Add(outgo_3_static_box_sizer,wx.EXPAND)
     outgo_3_box_sizer.Add(label21)
-    outgo_3_box_sizer.Add(self.text['out']['gib'])
+    outgo_3_box_sizer.Add(self.text['rub']['out']['gib'])
 
     label22=wx.StaticText(self.__panel__,label='valuta')
     label23=wx.StaticText(self.__panel__,label='cenbum')
@@ -161,14 +164,14 @@ class MainFrame(wx.Frame):
     outgo_4_box_sizer=wx.BoxSizer(wx.VERTICAL)
     outgo_4_static_box=wx.StaticBox(self.__panel__,label='OTHER')
     outgo_4_static_box_sizer=wx.wx.StaticBoxSizer(outgo_4_static_box,wx.VERTICAL)
-    outgo_4_static_box_sizer.AddMany([label22,self.text['out']['other_val'],
-                                      label23,self.text['out']['other_cenbum']])
+    outgo_4_static_box_sizer.AddMany([label22,self.text['rub']['out']['other_val'],
+                                      label23,self.text['rub']['out']['other_cenbum']])
     outgo_4_box_sizer.Add(outgo_4_static_box_sizer,wx.EXPAND)
 
-    outgo_static_box_sizer.Add(outgo_1_static_box_sizer,wx.EXPAND)
-    outgo_static_box_sizer.Add(outgo_2_static_box_sizer,wx.EXPAND)
-    outgo_static_box_sizer.Add(outgo_3_box_sizer,wx.EXPAND)
-    outgo_static_box_sizer.Add(outgo_4_box_sizer,wx.EXPAND)
+    outgo_static_box_sizer.Add(outgo_1_static_box_sizer,proportion=1)
+    outgo_static_box_sizer.Add(outgo_2_static_box_sizer,proportion=1)
+    outgo_static_box_sizer.Add(outgo_3_box_sizer,proportion=1)
+    outgo_static_box_sizer.Add(outgo_4_box_sizer,proportion=1)
 
     box['outgo'].Add(outgo_static_box_sizer,wx.EXPAND|wx.ALL)
 ###---END:RUB:OUTGO
@@ -177,10 +180,13 @@ class MainFrame(wx.Frame):
     label25=wx.StaticText(self.__panel__,label='outgoing balance:')
     box['outbal']=wx.BoxSizer(wx.HORIZONTAL)
     box['outbal'].Add(label25)
-    box['outbal'].Add(self.text['outbal'])
+    box['outbal'].Add(self.text['rub']['outbal'])
 ###---END:RUB:OUTBAL
 
-    mainbox.AddMany((box['inbal'],box['incom'],box['outgo'],box['outbal']))
+    mainbox.Add(box['inbal'])
+    mainbox.Add(box['incom'])
+    mainbox.Add(box['outgo'])
+    mainbox.Add(box['outbal'])
 
     for key in box.keys():
       if not key in self.__schem__['blocks']:
@@ -226,12 +232,15 @@ class MainFrame(wx.Frame):
         node.append({'value':value,'time':dt_str,'description':'single value'})
       else:
         node.append({'value':value,'time':dt_str,'description':'single value'})
-      self.calc.calcoutbal(self.data)
+      self.calc.calcoutbal(self.data,self.paypy.obpday)
       self.paypy.setdata(self.date,self.data)
       self.Update(self.text,[])
 
   def onDClk(self,event,keys):
-    datadialog.DataDialog(self,str(keys),(450,600),keys)
+    datadialog.DataDialog(self,str(keys),(400,400),keys)
+    self.Update(self.text,[])
+
+  def onTimer(self,event):
     self.Update(self.text,[])
 
   def Update(self,node,keys):
