@@ -41,11 +41,16 @@ class AuthFrame(wx.Frame):
     self.Bind(wx.EVT_BUTTON,self.onOk,id=1)
     self.Bind(wx.EVT_BUTTON,self.onClose,id=2)
     self.Bind(wx.EVT_TEXT_ENTER,self.onOk,id=3)
+    self.Bind(wx.EVT_KEY_DOWN,self.onKey)
 
     self.Centre()
     self.Show()
 
     self.accessSizer.Show(self.label0,False)
+
+  def onKey(self,event):
+    if event.GetKeyCode()==wx.WXK_ESCAPE:
+      self.onCancel(None)
 
   def onOk(self,e):
     user=self.loginField.GetValue()

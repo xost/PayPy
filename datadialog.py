@@ -62,9 +62,16 @@ class DataDialog(wx.Dialog):
     self.Bind(wx.EVT_BUTTON,self.onOk,id=3)
     self.Bind(wx.EVT_BUTTON,self.onDelete,id=4)
     self.Bind(wx.EVT_BUTTON,self.onCancel,id=5)
+    self.Bind(wx.EVT_KEY_DOWN,self.onEsc)
 
     self.SetSizer(boxSizer)
     self.Layout()
+
+  def onEsc(self,event):
+    print event.GetKeyCode()
+    print wx.WXK_ESCAPE
+    if event.GetKeyCode()==wx.WXK_ECSAPE:
+      self.Destroy()
 
   def onOk(self,event):
     try:

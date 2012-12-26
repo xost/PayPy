@@ -18,7 +18,7 @@ class MainFrame(wx.Frame):
     self.date=app.date
     self.paypy=paypydb.PayPyDB(self.date,'PayPy.db','')
     self.data=self.paypy.getdata(self.date)
-    self.__schem__=schem
+    self.schem=schem
     self.calc=calculations.Calculations()
 
     self.initUI()
@@ -59,7 +59,7 @@ class MainFrame(wx.Frame):
     self.combo1=wx.ComboBox(self.__panel__,0,self.date,choices=alldays)
     label1=wx.StaticText(self.__panel__,label='incomming balance:')
     btnSaveInbal=wx.Button(self.__panel__,-1,'Save')
-    btnSaveInbal.Bind(wx.EVT_BUTTON,lambda event, k=['inbal']: self.onEnter(event,['inbal']))
+    btnSaveInbal.Bind(wx.EVT_BUTTON,lambda event, k=['inbal']: self.onEnter(event,['rub','inbal']))
     box['inbal']=wx.BoxSizer(wx.HORIZONTAL)
     box['inbal'].Add(self.combo1)
     box['inbal'].Add(label1)
@@ -189,7 +189,7 @@ class MainFrame(wx.Frame):
     mainbox.Add(box['outbal'])
 
     for key in box.keys():
-      if not key in self.__schem__['blocks']:
+      if not key in self.schem['blocks']:
         mainbox.Show(box[key],False,True)
 
     self.__panel__.SetSizer(mainbox)
@@ -203,11 +203,12 @@ class MainFrame(wx.Frame):
     if not isinstance(node,dict):
       value=self.calc.calc(self.data,keys[:])
       node=wx.TextCtrl(self.__panel__,-1,str(value),size,style=wx.TE_PROCESS_ENTER)
-      if not keys in self.__schem__['editable']:
-        node.SetEditable(False)
-        node.Bind(wx.EVT_LEFT_DCLICK,lambda event, k=keys[:]: self.onDClk(event,k))
-      else:
+      if keys in model.editable and not keys in self.schem['readonly']:
         node.Bind(wx.EVT_TEXT_ENTER,lambda event, k=keys[:]: self.onEnter(event,k))
+      else:
+        node.SetEditable(False)
+        if not keys in self.schem['readonly'] and not keys in model.readonly:
+          node.Bind(wx.EVT_LEFT_DCLICK,lambda event, k=keys[:]: self.onDClk(event,k))
       return node
     else:
       for key in node:
@@ -252,7 +253,6 @@ class MainFrame(wx.Frame):
         keys.append(key)
         self.Update(node[key],keys)
         keys.pop()
-
 
   def onQuit(self,e):
     del(self.data)

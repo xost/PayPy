@@ -33,3 +33,6 @@ rub={'inbal':[],
 val={}
 
 model={'rub':rub,'val':val}
+
+editable=[['rub','inbal']]
+readonly=[['rub','outbal']]

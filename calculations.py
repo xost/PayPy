@@ -4,18 +4,18 @@ import datetime
 
 class Calculations(object):
 
-  def inbal(self,data):
-    try:
-      return data['rub']['inbal'][0]['value']
-    except (KeyError, IndexError):
-      return 0.0
-
-  def outbal(self,data):
-    try:
-      return data['rub']['outbal'][0]['value']
-    except (KeyError, IndexError):
-      return 0.0
-
+#  def inbal(self,data):
+#    try:
+#      return data['rub']['inbal'][0]['value']
+#    except (KeyError, IndexError):
+#      return 0.0
+#
+#  def outbal(self,data):
+#    try:
+#      return data['rub']['outbal'][0]['value']
+#    except (KeyError, IndexError):
+#      return 0.0
+#
   def calcoutbal(self,data,obpday):
     inbal=self.calc(data,['rub','inbal'])
     _in=self.calc(data,['rub','in'])
