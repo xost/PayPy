@@ -8,9 +8,11 @@ class Calculations(object):
     inbal=self.calc(data,['rur','inbal'])
     _in=self.calc(data,['rur','in'])
     out=self.calc(data,['rur','out'])
+    data['rur']['outbal']=[{'value':inbal+_in+obpday-out,'time':self.time()'description':'single value'}]
+
+  def time(self):
     dt=datetime.datetime.now()
-    dt_str='%s:%s:%s' % (dt.hour,dt.minute,dt.second)
-    data['rur']['outbal']=[{'value':inbal+_in+obpday-out,'time':dt_str,'description':'single value'}]
+    return '%s:%s:%s' % (dt.hour,dt.minute,dt.second)
 
   def intotal(self,data):
     pass
