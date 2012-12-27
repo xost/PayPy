@@ -36,7 +36,16 @@ class Model(calculations.Calculations):
                }
         }
 
-    val={'corr':{'usd':{'in':{'bal':[],'in':{'incom':[]}}},{'out':{'payments':[]}},{}},
+    val={'corr':{'usd':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'outbal':[]},
+                 'eur':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'outbal':[]}},
+         'mmvb':{'usd':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[]},
+                 'eur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[]},
+                 'rur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[]}},
+         'kassa':{'usd':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'outbal':[]},
+                  'eur':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'outbal':[]}},
+         'open':{'usd':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'outbal':[]},
+                 'eur':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'outbal':[]}},
+        }
 
     model={'rur':rur}
     
