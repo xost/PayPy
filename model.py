@@ -43,7 +43,7 @@ val={'corr':{'in':{'usd':{'inbal':[],
             }
     }
 
-model={'rur':rur,'val':val}
+model={'rur':rur}
 
 editable=[['rur','inbal']]
 readonly=[['rur','outbal']]
