@@ -36,15 +36,15 @@ class Model(calculations.Calculations):
                }
         }
 
-    val={'corr':{'usd':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'outbal':[]},
-                 'eur':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'outbal':[]}},
-         'mmvb':{'usd':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[]},
-                 'eur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[]},
-                 'rur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[]}},
-         'kassa':{'usd':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'outbal':[]},
-                  'eur':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'outbal':[]}},
-         'open':{'usd':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'outbal':[]},
-                 'eur':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'outbal':[]}},
+    val={'corr':{'usd':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'outbal':[],'pdoutbal':[]},
+                 'eur':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'outbal':[],'pdoutbal':[]}},
+         'mmvb':{'usd':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[],'pdoutbal':[]},
+                 'eur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[],'pdoutbal':[]},
+                 'rur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[],'pdoutbal':[]}},
+         'kassa':{'usd':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'outbal':[],'pdoutbal':[]},
+                  'eur':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'outbal':[],'pdoutbal':[]}},
+         'open':{'usd':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'outbal':[],'pdoutbal':[]},
+                 'eur':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'outbal':[],'pdoutbal':[]}}
         }
 
     model={'rur':rur}
@@ -54,6 +54,8 @@ class Model(calculations.Calculations):
 
     rur_inbal=['rur','inbal']
     rur_outbal=['rur','outbal']
+
+    val_outbal={'add':[['in'],['inbal']],'sub':[['out']]}
 
   def calcoutbal(self,data,keys):
     pass
