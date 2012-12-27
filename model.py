@@ -36,15 +36,7 @@ class Model(calculations.Calculations):
                }
         }
 
-    val={'corr':{'in':{'usd':{'inbal':[],
-                              'in':[]
-                             },
-                       'eur':{'inbal':[],
-                              'in':[]
-                             }
-                      }
-                }
-        }
+    val={'corr':{'usd':{'in':{'bal':[],'in':{'incom':[]}}},{'out':{'payments':[]}},{}},
 
     model={'rur':rur}
     
