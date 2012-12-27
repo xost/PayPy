@@ -2,7 +2,10 @@
 
 import copy
 
-rub={'inbal':[],
+""" perenesti vsu specifiku raboty s dannymi
+"""
+
+rur={'inbal':[],
      'outbal':[],
      'in':{'reises':[],
            'inkas':[],
@@ -30,9 +33,17 @@ rub={'inbal':[],
            }
     }
 
-val={}
+val={'corr':{'in':{'usd':{'inbal':[],
+                          'in':[]
+                         },
+                   'eur':{'inbal':[],
+                          'in':[]
+                         }
+                  }
+            }
+    }
 
-model={'rub':rub,'val':val}
+model={'rur':rur,'val':val}
 
-editable=[['rub','inbal']]
-readonly=[['rub','outbal']]
+editable=[['rur','inbal']]
+readonly=[['rur','outbal']]

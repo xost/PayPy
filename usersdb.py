@@ -17,8 +17,8 @@ class UsersDB(PersistentMapping):
       self.__dbroot__['all']
     except KeyError:
       self.__dbroot__['all']={'passwd':'111','schem':{'blocks':['inbal','incom','outgo','outbal'],'readonly':[]}}
-      self.__dbroot__['rub']={'passwd':'222','schem':{'blocks':['inbal','incom','outbal'],'readonly':[['rub','inbal']]}}
-      self.__dbroot__['val']={'passwd':'333','schem':{'blocks':['inbal','incom'],'readonly':[['rub','inbal']]}}
+      self.__dbroot__['rur']={'passwd':'222','schem':{'blocks':['inbal','incom','outbal'],'readonly':[['rur','inbal']]}}
+      self.__dbroot__['val']={'passwd':'333','schem':{'blocks':['inbal','incom'],'readonly':[['rur','inbal']]}}
       self.commit()
 
   def userslist(self):

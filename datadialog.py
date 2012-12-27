@@ -3,6 +3,7 @@
 import wx
 import calculations
 import datetime
+import model
 
 class DataDialog(wx.Dialog):
 
@@ -10,7 +11,7 @@ class DataDialog(wx.Dialog):
     super(DataDialog,self).__init__(parent,title=title,size=size)
     self.parent=parent
     self.keys=keys[:]
-    self.node=self.parent.calc.findnode(self.parent.data,self.keys)
+    self.node=self.parent.calc.findnode(self.parent.data,keys[:])
     self.initUI()
     #self.Centre()
     self.ShowModal()
@@ -57,15 +58,20 @@ class DataDialog(wx.Dialog):
     boxSizer.Add(descrSizer)
     boxSizer.Add(btnsSizer)
 
-    self.Bind(wx.EVT_TEXT_ENTER,self.onOk,id=1)
-    self.Bind(wx.EVT_TEXT_ENTER,self.onOk,id=2)
-    self.Bind(wx.EVT_BUTTON,self.onOk,id=3)
-    self.Bind(wx.EVT_BUTTON,self.onDelete,id=4)
     self.Bind(wx.EVT_BUTTON,self.onCancel,id=5)
     self.Bind(wx.EVT_KEY_DOWN,self.onEsc)
 
     self.SetSizer(boxSizer)
     self.Layout()
+
+    if self.keys in self.parent.schem['readonly'] or self.keys in model.readonly:
+      self.text.SetEditable(False)
+      self.descr.SetEditable(False)
+    else:
+      self.Bind(wx.EVT_TEXT_ENTER,self.onOk,id=1)
+      self.Bind(wx.EVT_TEXT_ENTER,self.onOk,id=2)
+      self.Bind(wx.EVT_BUTTON,self.onOk,id=3)
+      self.Bind(wx.EVT_BUTTON,self.onDelete,id=4)
 
   def onEsc(self,event):
     print event.GetKeyCode()
