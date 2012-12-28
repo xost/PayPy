@@ -10,6 +10,7 @@ class Model(calculations.Calculations):
   def __init__(self):
     rur={'inbal':[],
          'outbal':[],
+         'pdoutbal':[],
          'in':{'reises':[],
                'inkas':[],
                'veks':[],
@@ -49,13 +50,17 @@ class Model(calculations.Calculations):
 
     model={'rur':rur}
     
+    pboutbal=[['rur','pdoutbal'],['val','corr','usd','pdoutbal'],['val','corr','eur','pdoutbal'],['val','mmvb','usd','pdoutbal'],['val','mmvb','eur','pdoutbal'],['val','mmvb','rur','pdoutbal'],['val','open','usd','pdoutbal'],['val','open','eur','pdoutbal']]
+
     editable=[['rur','inbal']]
     readonly=[['rur','outbal']]
+    hide=pboutbal
 
-    rur_inbal=['rur','inbal']
     rur_outbal=['rur','outbal']
 
-    val_outbal={'add':[['in'],['inbal']],'sub':[['out']]}
+    outbal={'add':[['in'],['inbal']],'sub':[['out']]}
+
+    
 
   def calcoutbal(self,data,keys):
     pass
