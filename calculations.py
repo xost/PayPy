@@ -8,7 +8,7 @@ class Calculations(object):
     inbal=self.calc(data,['rur','inbal'])
     _in=self.calc(data,['rur','in'])
     out=self.calc(data,['rur','out'])
-    data['rur']['outbal']=[{'value':inbal+_in+obpday-out,'time':self.time()'description':'single value'}]
+    data['rur']['outbal']=[{'value':inbal+_in+obpday-out,'time':self.time(),'description':'single value'}]
 
   def time(self):
     dt=datetime.datetime.now()
