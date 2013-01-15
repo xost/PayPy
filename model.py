@@ -48,13 +48,14 @@ class Model(calculations.Calculations):
                  'eur':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'outbal':[],'pdoutbal':[]}}
         }
 
-    model={'rur':rur}
+    self.model={'rur':rur}
     
-    pboutbal=[['rur','pdoutbal'],['val','corr','usd','pdoutbal'],['val','corr','eur','pdoutbal'],['val','mmvb','usd','pdoutbal'],['val','mmvb','eur','pdoutbal'],['val','mmvb','rur','pdoutbal'],['val','open','usd','pdoutbal'],['val','open','eur','pdoutbal']]
+    self.pdoutbal=[['rur','pdoutbal'],['val','corr','usd','pdoutbal'],['val','corr','eur','pdoutbal'],['val','mmvb','usd','pdoutbal'],['val','mmvb','eur','pdoutbal'],['val','mmvb','rur','pdoutbal'],['val','open','usd','pdoutbal'],['val','open','eur','pdoutbal']]
 
-    editable=[['rur','inbal']]
-    readonly=[['rur','outbal']]
-    hide=pboutbal
+    self.editable=[['rur','inbal']]
+    self.readonly=[['rur','outbal']]
+
+    self.hide=pboutbal
 
     rur_outbal=['rur','outbal']
 
