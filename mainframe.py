@@ -49,9 +49,10 @@ class MainFrame(wx.Frame):
     self.__panel__=wx.Panel(self)
     mainbox=wx.BoxSizer(wx.VERTICAL)
     # generate TextCtrl fields as 'model'
-    self.text=self.__GenModel__(copy.deepcopy(model.model),[],fieldSize)
+    self.mdl=model.Model()
+    self.text=self.__GenModel__(copy.deepcopy(self.mdl.model),[],fieldSize)
 
-    self.calc.calcoutbal(self.data,self.paypy.obpday)
+    self.calc.calcoutbal(self.data,self.paypy.pdoutbal)
     self.paypy.setdata(self.date,self.data)
     self.Update(self.text,[])
 
@@ -203,7 +204,7 @@ class MainFrame(wx.Frame):
     if not isinstance(node,dict):
       value=self.calc.calc(self.data,keys[:])
       node=wx.TextCtrl(self.__panel__,-1,str(value),size,style=wx.TE_PROCESS_ENTER)
-      if keys in model.editable and not keys in self.schem['readonly']:
+      if keys in self.mdl.editable and not keys in self.schem['readonly']:
         node.Bind(wx.EVT_TEXT_ENTER,lambda event, k=keys[:]: self.onEnter(event,k))
       else:
         node.SetEditable(False)
@@ -233,7 +234,7 @@ class MainFrame(wx.Frame):
         node.append({'value':value,'time':dt_str,'description':'single value'})
       else:
         node.append({'value':value,'time':dt_str,'description':'single value'})
-      self.calc.calcoutbal(self.data,self.paypy.obpday)
+      self.calc.calcoutbal(self.data,self.paypy.pdoutbal)
       self.paypy.setdata(self.date,self.data)
       self.Update(self.text,[])
 
