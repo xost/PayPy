@@ -59,7 +59,6 @@ class Model(calculations.Calculations):
 
     self.pdoutbal=[['rur','pdoutbal'],['val','corr','usd','pdoutbal'],['val','corr','eur','pdoutbal'],['val','mmvb','usd','pdoutbal'],['val','mmvb','eur','pdoutbal'],['val','mmvb','rur','pdoutbal'],['val','open','usd','pdoutbal'],['val','open','eur','pdoutbal']]
 
-
     self.editable=[['rur','inbal']]
     self.readonly=[['rur','outbal']]
 

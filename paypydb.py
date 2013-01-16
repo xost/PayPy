@@ -40,9 +40,11 @@ class PayPyDB(model.Model):
     self.__storage__.close()
 
   def __fill_pdoutball__(self):
-    pass
+    prevday=self.prevday()
+    pddata=self.__dbroot__[prevday]
     for keys in self.pdoutbal:
-      setnode
+      pdoutbal=None
+      setnode(keys,pdoutbal)
 
   def getdata(self,date):
     return self.__dbroot__[date]
