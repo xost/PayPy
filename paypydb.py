@@ -42,7 +42,7 @@ class PayPyDB(model.Model):
   def __fill_pdoutball__(self):
     pass
     for keys in self.pdoutbal:
-      pass
+      setnode
 
   def getdata(self,date):
     return self.__dbroot__[date]

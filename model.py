@@ -52,6 +52,8 @@ class Model(calculations.Calculations):
         }
 
     self.model={'rur':rur}
+
+    self.keys_outbal=['rur','corr_usd','corr_eur','mmvb_usd','mmvb_eur','mmvb_rur','open_usd','open_eur']
     
     self.outbal=[['rur','outbal'],['val','corr','usd','outbal'],['val','corr','eur','outbal'],['val','mmvb','usd','outbal'],['val','mmvb','eur','outbal'],['val','mmvb','rur','outbal'],['val','open','usd','outbal'],['val','open','eur','outbal']]
 
@@ -68,7 +70,7 @@ class Model(calculations.Calculations):
     outbal={'add':[['in'],['inbal']],'sub':[['out']]}
 
   def findnode(self,keys):
-    return super(Model,self).__init__(self.model,keys)
+    return super(Model,self).findnode(self.model,keys)
 
   def setnode(self,keys,data):
     node=findnode(keys)
