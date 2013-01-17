@@ -22,6 +22,7 @@ class Calculations(model.Model):
       return data[keys[-1]]
     except IndexError:
       return data
+### other variant
 #    try:
 #      key=keys.pop(0)
 #    except IndexError:

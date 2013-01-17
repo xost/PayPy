@@ -23,11 +23,6 @@ class PayPyDB(calculations.Calculations):
       self.__dbroot__[date]=self.model                     # create database and 'newday' with zero data
       self.commit()                                        # commit changes
     else:
-      yesterday=self.yesterday()
-      if yesterday:
-        self.youtbal=self.__dbroot__[yesterday]['rub']['outbal'][0]['value']
-      else:
-        self.youtbal=0.0
 
   def __del__(self):
     self.__connection__.close()
