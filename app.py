@@ -1,14 +1,18 @@
 #!/usr/bin/python
 
-from model import model
+dicta={'a':{'aa':1,'bb':2}}
 
-def r(node,keys=[]):
-  if not isinstance(node,dict):
-    print keys
+def findnode(data,keys):
+  try:
+    key=keys.pop(0)
+  except IndexError:
+    return data
   else:
-    for key in node.keys():
-      keys.append(key)
-      r(node[key],keys)
-      keys.pop()
+    return findnode(data[key],keys)
 
-r(model)
+def findnode2(data,keys):
+  for key in keys[:-1]:
+    data=data[key]
+  return data[keys[-1]]
+
+print findnode2(dicta,['a','bb'])

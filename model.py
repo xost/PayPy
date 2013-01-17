@@ -13,7 +13,7 @@ class Model(calculations.Calculations):
   def __init__(self):
     rur={'inbal':[],
          'outbal':[],
-         'pdoutbal':[],
+         'youtbal':[],
          'in':{'reises':[],
                'inkas':[],
                'veks':[],
@@ -40,43 +40,39 @@ class Model(calculations.Calculations):
                }
         }
 
-    val={'corr':{'usd':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'outbal':[],'pdoutbal':[]},
-                 'eur':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'outbal':[],'pdoutbal':[]}},
-         'mmvb':{'usd':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[],'pdoutbal':[]},
-                 'eur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[],'pdoutbal':[]},
-                 'rur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[],'pdoutbal':[]}},
-         'kassa':{'usd':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'outbal':[],'pdoutbal':[]},
-                  'eur':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'outbal':[],'pdoutbal':[]}},
-         'open':{'usd':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'outbal':[],'pdoutbal':[]},
-                 'eur':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'outbal':[],'pdoutbal':[]}}
+    val={'corr':{'usd':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'outbal':[],'youtbal':[]},
+                 'eur':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'outbal':[],'youtbal':[]}},
+         'mmvb':{'usd':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[],'youtbal':[]},
+                 'eur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[],'youtbal':[]},
+                 'rur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'outbal':[],'youtbal':[]}},
+         'kassa':{'usd':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'outbal':[],'youtbal':[]},
+                  'eur':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'outbal':[],'youtbal':[]}},
+         'open':{'usd':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'outbal':[],'youtbal':[]},
+                 'eur':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'outbal':[],'youtbal':[]}}
         }
 
     self.model={'rur':rur}
 
-    self.keys_outbal=['rur','corr_usd','corr_eur','mmvb_usd','mmvb_eur','mmvb_rur','open_usd','open_eur']
-    
-    self.outbal=[['rur','outbal'],['val','corr','usd','outbal'],['val','corr','eur','outbal'],['val','mmvb','usd','outbal'],['val','mmvb','eur','outbal'],['val','mmvb','rur','outbal'],['val','open','usd','outbal'],['val','open','eur','outbal']]
-
-    self.pdoutbal=[['rur','pdoutbal'],['val','corr','usd','pdoutbal'],['val','corr','eur','pdoutbal'],['val','mmvb','usd','pdoutbal'],['val','mmvb','eur','pdoutbal'],['val','mmvb','rur','pdoutbal'],['val','open','usd','pdoutbal'],['val','open','eur','pdoutbal']]
+    self.blocks=[['rur'],['val','corr','usd'],['val','corr','eur'],['val','mmvb','usd'],['val','mmvb','eur'],['val','mmvb','rur'],['val','open','usd'],['val','open','eur']]
 
     self.editable=[['rur','inbal']]
     self.readonly=[['rur','outbal']]
 
-    self.hide=self.pdoutbal
+    self.hide=self.blocks
 
     rur_outbal=['rur','outbal']
 
-    outbal={'add':[['in'],['inbal']],'sub':[['out']]}
-
-  def findnode(self,keys):
-    return super(Model,self).findnode(self.model,keys)
-
-  def setnode(self,keys,data):
-    node=findnode(keys)
-    node=data
+    self.outbal={'add':[['in'],['inbal']],'sub':[['out']]}
 
   def calcoutbal(self,data,keys):
-    pass
+    for block in self.blocks:
+      for operation, keys in self.outbal.items():
+        for i in keys:
+          key=copy.copy(block)
+          key.extend(i)
+          print key
+    
 
 if __name__=='__main__': 
-  pass
+  mdl=Model()
+  mdl.calcoutbal(mdl.model,[])

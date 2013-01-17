@@ -14,16 +14,28 @@ class Calculations(object):
     dt=datetime.datetime.now()
     return '%s:%s:%s' % (dt.hour,dt.minute,dt.second)
 
-  def intotal(self,data):
-    pass
-
   def findnode(self,data,keys):
     try:
-      key=keys.pop(0)
+      for key in keys[:-1]:
+        data=data[key]
+      return data[keys[-1]]
     except IndexError:
       return data
-    else:
-      return self.findnode(data[key],keys)
+#    try:
+#      key=keys.pop(0)
+#    except IndexError:
+#      return data
+#    else:
+#      return self.findnode(data[key],keys)
+      
+  def setnode(self,data,keys,value):
+    try:
+      for key in keys[:-1]:
+        data=data[key]
+      data[keys[-1]]=value
+      return value
+    except IndexError:
+      return None
 
   def __calcnode__(self,data):
     result=0.0
