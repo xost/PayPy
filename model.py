@@ -6,7 +6,7 @@ import calculations
 """ perenesti vsu specifiku raboty s dannymi
 """
 
-class Model(calculations.Calculations):
+class Model(object):
   def __call__(self):
     return self.model
 
@@ -63,16 +63,3 @@ class Model(calculations.Calculations):
     rur_outbal=['rur','outbal']
 
     self.outbal={'add':[['in'],['inbal']],'sub':[['out']]}
-
-  def calcoutbal(self,data,keys):
-    for block in self.blocks:
-      for operation, keys in self.outbal.items():
-        for i in keys:
-          key=copy.copy(block)
-          key.extend(i)
-          print key
-    
-
-if __name__=='__main__': 
-  mdl=Model()
-  mdl.calcoutbal(mdl.model,[])

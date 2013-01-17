@@ -7,8 +7,9 @@ import transaction
 import copy
 import logging
 import model
+import calculations
 
-class PayPyDB(model.Model):
+class PayPyDB(calculations.Calculations):
   def __init__(self,date,dbfn,loglevel):
     super(PayPyDB,self).__init__()
     #connect to database
