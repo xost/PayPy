@@ -3,10 +3,8 @@
 import wx
 import paypy as app
 import paypydb
-import calculations
 import datetime
 import time
-import model
 import copy
 import datadialog
 
@@ -19,7 +17,6 @@ class MainFrame(wx.Frame):
     self.paypy=paypydb.PayPyDB(self.date,'PayPy.db','')
     self.data=self.paypy.getdata(self.date)
     self.schem=schem
-    self.calc=calculations.Calculations()
 
     self.initUI()
 
@@ -36,7 +33,6 @@ class MainFrame(wx.Frame):
     alldays=self.paypy.alldays()
     alldays.sort(reverse=True)
     fieldSize=(200,24)
-
     box={}
 
     #menuBar=wx.MenuBar()
@@ -49,10 +45,9 @@ class MainFrame(wx.Frame):
     self.__panel__=wx.Panel(self)
     mainbox=wx.BoxSizer(wx.VERTICAL)
     # generate TextCtrl fields as 'model'
-    self.mdl=model.Model()
-    self.text=self.__GenModel__(copy.deepcopy(self.mdl.model),[],fieldSize)
+    self.text=self.__GenModel__(copy.deepcopy(self.paypy.model),[],fieldSize)
 
-    self.calc.calcoutbal(self.data,self.paypy.pdoutbal)
+    self.paypy.calcallbal(self.data)
     self.paypy.setdata(self.date,self.data)
     self.Update(self.text,[])
 
@@ -202,9 +197,9 @@ class MainFrame(wx.Frame):
 
   def __GenModel__(self,node,keys,size):
     if not isinstance(node,dict):
-      value=self.calc.calc(self.data,keys[:])
+      value=self.paypy.calc(self.data,keys[:])
       node=wx.TextCtrl(self.__panel__,-1,str(value),size,style=wx.TE_PROCESS_ENTER)
-      if keys in self.mdl.editable and not keys in self.schem['readonly']:
+      if keys in self.paypy.editable and not keys in self.schem['readonly']:
         node.Bind(wx.EVT_TEXT_ENTER,lambda event, k=keys[:]: self.onEnter(event,k))
       else:
         node.SetEditable(False)
@@ -219,8 +214,8 @@ class MainFrame(wx.Frame):
     return node
 
   def onEnter(self,event,keys):
-    text=self.calc.findnode(self.text,keys[:])
-    node=self.calc.findnode(self.data,keys[:])
+    text=self.paypy.findnode(self.text,keys[:])
+    node=self.paypy.findnode(self.data,keys[:])
     try:
       value=float(text.GetValue())
     except ValueError:
@@ -234,7 +229,7 @@ class MainFrame(wx.Frame):
         node.append({'value':value,'time':dt_str,'description':'single value'})
       else:
         node.append({'value':value,'time':dt_str,'description':'single value'})
-      self.calc.calcoutbal(self.data,self.paypy.pdoutbal)
+      self.paypy.calcallbal(self.data)
       self.paypy.setdata(self.date,self.data)
       self.Update(self.text,[])
 
@@ -247,7 +242,7 @@ class MainFrame(wx.Frame):
 
   def Update(self,node,keys):
     if not isinstance(node,dict):
-      value=self.calc.calc(self.data,keys[:])
+      value=self.paypy.calc(self.data,keys[:])
       node.SetValue(str(value))
     else:
       for key in node:

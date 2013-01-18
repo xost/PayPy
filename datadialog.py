@@ -1,9 +1,7 @@
 #!/usr/bin/python
 
 import wx
-import calculations
 import datetime
-import model
 
 class DataDialog(wx.Dialog):
 
@@ -11,7 +9,7 @@ class DataDialog(wx.Dialog):
     super(DataDialog,self).__init__(parent,title=title,size=size)
     self.parent=parent
     self.keys=keys[:]
-    self.node=self.parent.calc.findnode(self.parent.data,keys[:])
+    self.node=self.parent.paypy.findnode(self.parent.data,keys[:])
     self.initUI()
     #self.Centre()
     self.ShowModal()
@@ -64,7 +62,7 @@ class DataDialog(wx.Dialog):
     self.SetSizer(boxSizer)
     self.Layout()
 
-    if self.keys in self.parent.schem['readonly'] or self.keys in model.readonly:
+    if self.keys in self.parent.schem['readonly'] or self.keys in self.parent.paypy.readonly:
       self.text.SetEditable(False)
       self.descr.SetEditable(False)
     else:
@@ -90,13 +88,21 @@ class DataDialog(wx.Dialog):
       dt_str='%s:%s:%s' % (dt.hour,dt.minute,dt.second)
       self.dataList.Append((value,dt_str,descr))
       self.node.append({'value':value,'time':dt_str,'description':descr})
-      self.parent.calc.calcoutbal(self.parent.data,self.parent.paypy.obpday)
+      self.parent.paypy.calcallbal(self.parent.data)
       self.parent.paypy.setdata(self.parent.date,self.parent.data)
       self.text.SetValue('')
       self.descr.SetValue('')
  
   def onDelete(self,event):
-    self.dataList.DeleteItem(self.dataList.GetFocusedItem())
- 
+    itemnum=self.dataList.GetFocusedItem()
+    self.dataList.DeleteItem(itemnum)
+    try:
+      del(self.node[itemnum])
+    except:
+      pass
+    else:
+      self.parent.paypy.calcallbal(self.parent.data)
+      self.parent.paypy.setdata(self.parent.date,self.parent.data)
+  
   def onCancel(self,event):
     self.Destroy()

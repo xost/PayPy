@@ -11,5 +11,5 @@ if __name__ == '__main__':
   frame=authframe.AuthFrame('Authorization',(200,150))
   app.MainLoop()
 else:
-  date=datetime.datetime.now().strftime('%Y/%m/%d')
-  #date='2012/12/27'
+  #date=datetime.datetime.now().strftime('%Y/%m/%d')
+  date='2013/01/14'

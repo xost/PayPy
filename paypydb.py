@@ -6,8 +6,8 @@ from persistent import Persistent
 import transaction
 import copy
 import logging
-import model
 import calculations
+
 
 class PayPyDB(calculations.Calculations):
   def __init__(self,date,dbfn,loglevel):
@@ -20,26 +20,24 @@ class PayPyDB(calculations.Calculations):
 
     if not date in self.alldays():                         # if today date is exists then fill the 'data' attr
       self.__fill_youtbal__()
-      self.__dbroot__[date]=self.model                     # create database and 'newday' with zero data
+      self.__dbroot__[date]=self.data                     # create database and 'newday' with zero data
       self.commit()                                        # commit changes
-    else:
 
   def __del__(self):
     self.__connection__.close()
     self.__db__.close()
     self.__storage__.close()
 
-  def __fill_youtball__(self):
+  def __fill_youtbal__(self):
     yesterday=self.yesterday()
     if yesterday:
       pddata=self.__dbroot__[yesterday]
-      for keys in self.blocks:
-        tmp=keys[:]
-        tmp.append('outbal')
-        keys.append('youtbal')
-        self.setnode(self.model,keys,self.findnode(pddata,tmp))
-    else:
-      pass
+      for keys in self.blocks[:]:
+        a=keys[:]
+        b=keys[:]
+        a.append('outbal')
+        b.append('youtbal')
+        self.setnode(self.data,b,self.findnode(pddata,a))
 
   def getdata(self,date):
     return self.__dbroot__[date]
@@ -52,7 +50,7 @@ class PayPyDB(calculations.Calculations):
     days=self.alldays()
     days.sort(reverse=True)
     try:
-      return days[1]
+      return days[0]
     except IndexError:
       return None
 

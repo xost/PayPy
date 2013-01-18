@@ -5,12 +5,6 @@ import model
 
 class Calculations(model.Model):
 
-#  def calcoutbal(self,data,obpday):
-#    inbal=self.calc(data,['rur','inbal'])
-#    _in=self.calc(data,['rur','in'])
-#    out=self.calc(data,['rur','out'])
-#    data['rur']['outbal']=[{'value':inbal+_in+obpday-out,'time':self.time(),'description':'single value'}]
-
   def time(self):
     dt=datetime.datetime.now()
     return '%s:%s:%s' % (dt.hour,dt.minute,dt.second)
@@ -22,6 +16,8 @@ class Calculations(model.Model):
       return data[keys[-1]]
     except IndexError:
       return data
+    except KeyError:
+      pass
 ### other variant
 #    try:
 #      key=keys.pop(0)
@@ -38,6 +34,8 @@ class Calculations(model.Model):
       return value
     except IndexError:
       return None
+    except KeyError:
+      pass
 
   def __calcnode__(self,data):
     result=0.0
@@ -55,22 +53,25 @@ class Calculations(model.Model):
     return self.__calcnode__(self.findnode(data,keys))
 
   def calcbal(self,data,block):
-    v=0.0
+    value=0.0
     for operation, keys in self.outbal.items():
       for i in keys:
         key=block[:]
         key.extend(i)
         if operation=='add':
-          v+=self.calc(data,key)
+          value+=self.calc(data,key)
         else:
-          v-=self.calc(data,key)
+          value-=self.calc(data,key)
     tmp=block[:]
     tmp.append('outbal')
-    setnode(data,tmp,[{'value':value,'time':self.time(),'description':'Outgoing ballance for %s' %(block)}])
+    self.setnode(data,tmp,[{'value':value,'time':self.time(),'description':'Outgoing ballance for %s' %(block)}])
 
   def calcallbal(self,data):
-    for block in self.blocks:
-      self.calcbal(data,block)
+    try:
+      for block in self.blocks:
+        self.calcbal(data,block)
+    except KeyError:
+      pass
 
 if __name__=='__main__':
   import paypydb

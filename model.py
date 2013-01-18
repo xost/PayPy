@@ -1,12 +1,9 @@
 #!/usr/bin/python
 
 import copy
-import calculations
-
-""" perenesti vsu specifiku raboty s dannymi
-"""
 
 class Model(object):
+
   def __call__(self):
     return self.model
 
@@ -51,14 +48,17 @@ class Model(object):
                  'eur':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'outbal':[],'youtbal':[]}}
         }
 
-    self.model={'rur':rur}
+    self.model={'rur':rur,'val':val}
+    self.data=copy.deepcopy(self.model)
 
     self.blocks=[['rur'],['val','corr','usd'],['val','corr','eur'],['val','mmvb','usd'],['val','mmvb','eur'],['val','mmvb','rur'],['val','open','usd'],['val','open','eur']]
 
     self.editable=[['rur','inbal']]
     self.readonly=[['rur','outbal']]
 
-    self.hide=self.blocks
+    self.hide=copy.deepcopy(self.blocks)
+    for block in self.hide:
+      block.extend('youtbal')
 
     rur_outbal=['rur','outbal']
 
