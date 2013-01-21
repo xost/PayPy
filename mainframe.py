@@ -45,7 +45,7 @@ class MainFrame(wx.Frame):
     self.__panel__=wx.Panel(self)
     mainbox=wx.BoxSizer(wx.VERTICAL)
     # generate TextCtrl fields as 'model'
-    self.text=self.__GenModel__(copy.deepcopy(self.paypy.model),[],fieldSize)
+    self.text=self.__GenButton__(copy.deepcopy(self.paypy.model),[],fieldSize)
 
     self.paypy.calcallbal(self.data)
     self.paypy.setdata(self.date,self.data)
@@ -195,7 +195,7 @@ class MainFrame(wx.Frame):
     #self.Bind(wx.EVT_MENU,self.onQuit,fItem)
 ###---END:BINDINGS
 
-  def __GenModel__(self,node,keys,size):
+  def __GenButton__(self,node,keys,size):
     if not isinstance(node,dict):
       value=self.paypy.calc(self.data,keys[:])
       node=wx.TextCtrl(self.__panel__,-1,str(value),size,style=wx.TE_PROCESS_ENTER)
@@ -209,7 +209,7 @@ class MainFrame(wx.Frame):
     else:
       for key in node:
         keys.append(key)
-        node[key]=self.__GenModel__(node[key],keys,size)
+        node[key]=self.__GenButton__(node[key],keys,size)
         keys.pop()
     return node
 
