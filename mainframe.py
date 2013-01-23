@@ -179,6 +179,34 @@ class MainFrame(wx.Frame):
     box['outbal'].Add(self.text['rur']['outbal'])
 ###---END:RUB:OUTBAL
 
+###---BEGIN:VAL:CORR
+    box['val_corr']=wx.BoxSizer(wx.HORIZONTAL)
+
+    val_corr_static_box=wx.StaticBox(self.__panel__,label='VAL_CORR')
+    val_corr_static_box_sizer=wx.StaticBoxSizer(val_corr_static_box,wx.HORIZONTAL)
+
+    label26=wx.StaticText(self.__panel__,label='usd')
+    label27=wx.StaticText(self.__panel__,label='eur')
+
+    incom_reises_static_box=wx.StaticBox(self.__panel__,label='VAL_CORR')
+    incom_reises_static_box_sizer=wx.StaticBoxSizer(incom_reises_static_box,wx.VERTICAL)
+    incom_reises_static_box_sizer.AddMany([label26,self.text['val']['corr']['usd']['inbal'],
+                                           label26,self.text['val']['corr']['usd']['in']['incom'],
+                                           label26,self.text['val']['corr']['usd']['out']['outgo'],
+                                           label26,self.text['val']['corr']['usd']['outbal'],
+                                           label27,self.text['val']['corr']['eur']['inbal'],
+                                           label27,self.text['val']['corr']['eur']['in']['incom'],
+                                           label27,self.text['val']['corr']['eur']['out']['outgo'],
+                                           label27,self.text['val']['corr']['eur']['outbal'])
+
+    incom_static_box_sizer.Add(incom_reises_static_box_sizer,proportion=1)
+    incom_static_box_sizer.Add(incom_mmvb_static_box_sizer,proportion=1)
+    incom_static_box_sizer.Add(incom_3_static_box_sizer,proportion=1)
+    incom_static_box_sizer.Add(incom_other_static_box_sizer,proportion=1)
+
+    box['incom'].Add(incom_static_box_sizer,wx.EXPAND|wx.ALL)
+###---END:VAL:CORR
+
     mainbox.Add(box['inbal'])
     mainbox.Add(box['incom'])
     mainbox.Add(box['outgo'])
@@ -197,13 +225,12 @@ class MainFrame(wx.Frame):
 
   def __GenButton__(self,node,keys,size):
     if not isinstance(node,dict):
-      value=self.paypy.calc(self.data,keys[:])
+      value=self.paypy.calc(self.data,keys)
       node=wx.TextCtrl(self.__panel__,-1,str(value),size,style=wx.TE_PROCESS_ENTER)
       if keys in self.paypy.editable and not keys in self.schem['readonly']:
         node.Bind(wx.EVT_TEXT_ENTER,lambda event, k=keys[:]: self.onEnter(event,k))
       else:
         node.SetEditable(False)
-        #if not keys in self.schem['readonly'] and not keys in model.readonly:
         node.Bind(wx.EVT_LEFT_DCLICK,lambda event, k=keys[:]: self.onDClk(event,k))
       return node
     else:
@@ -214,8 +241,8 @@ class MainFrame(wx.Frame):
     return node
 
   def onEnter(self,event,keys):
-    text=self.paypy.findnode(self.text,keys[:])
-    node=self.paypy.findnode(self.data,keys[:])
+    text=self.paypy.findnode(self.text,keys)
+    node=self.paypy.findnode(self.data,keys)
     try:
       value=float(text.GetValue())
     except ValueError:

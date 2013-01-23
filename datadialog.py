@@ -9,7 +9,7 @@ class DataDialog(wx.Dialog):
     super(DataDialog,self).__init__(parent,title=title,size=size)
     self.parent=parent
     self.keys=keys[:]
-    self.node=self.parent.paypy.findnode(self.parent.data,keys[:])
+    self.node=self.parent.paypy.findnode(self.parent.data,keys)
     self.initUI()
     #self.Centre()
     self.ShowModal()
@@ -72,8 +72,6 @@ class DataDialog(wx.Dialog):
       self.Bind(wx.EVT_BUTTON,self.onDelete,id=4)
 
   def onEsc(self,event):
-    print event.GetKeyCode()
-    print wx.WXK_ESCAPE
     if event.GetKeyCode()==wx.WXK_ECSAPE:
       self.Destroy()
 
