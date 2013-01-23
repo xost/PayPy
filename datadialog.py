@@ -44,11 +44,11 @@ class DataDialog(wx.Dialog):
 
     btnsSizer=wx.BoxSizer(wx.HORIZONTAL)
     btnOk=wx.Button(self,3,'OK')
-    btnDelete=wx.Button(self,4,'Delete')
-    btnCancel=wx.Button(self,5,'Cancel')
+    btnClose=wx.Button(self,4,'Close')
+    btnDelete=wx.Button(self,5,'Delete')
     btnsSizer.Add(btnOk)
+    btnsSizer.Add(btnClose)
     btnsSizer.Add(btnDelete)
-    btnsSizer.Add(btnCancel)
 
     boxSizer=wx.BoxSizer(wx.VERTICAL)
     boxSizer.Add(listSizer)
@@ -56,7 +56,7 @@ class DataDialog(wx.Dialog):
     boxSizer.Add(descrSizer)
     boxSizer.Add(btnsSizer)
 
-    self.Bind(wx.EVT_BUTTON,self.onCancel,id=5)
+    self.Bind(wx.EVT_BUTTON,self.onClose,id=4)
     self.Bind(wx.EVT_KEY_DOWN,self.onEsc)
 
     self.SetSizer(boxSizer)
@@ -69,7 +69,7 @@ class DataDialog(wx.Dialog):
       self.Bind(wx.EVT_TEXT_ENTER,self.onOk,id=1)
       self.Bind(wx.EVT_TEXT_ENTER,self.onOk,id=2)
       self.Bind(wx.EVT_BUTTON,self.onOk,id=3)
-      self.Bind(wx.EVT_BUTTON,self.onDelete,id=4)
+      self.Bind(wx.EVT_BUTTON,self.onDelete,id=5)
 
   def onEsc(self,event):
     if event.GetKeyCode()==wx.WXK_ECSAPE:
@@ -102,5 +102,5 @@ class DataDialog(wx.Dialog):
       self.parent.paypy.calcallbal(self.parent.data)
       self.parent.paypy.setdata(self.parent.date,self.parent.data)
   
-  def onCancel(self,event):
+  def onClose(self,event):
     self.Destroy()

@@ -19,7 +19,7 @@ class PayPyDB(calculations.Calculations):
     self.__dbroot__=self.__connection__.root()
 
     if not date in self.alldays():                         # if today date is exists then fill the 'data' attr
-      self.__fill_youtbal__()
+      #self.__fill_yesterday__()
       self.__dbroot__[date]=self.data                     # create database and 'newday' with zero data
       self.commit()                                        # commit changes
 
@@ -28,7 +28,7 @@ class PayPyDB(calculations.Calculations):
     self.__db__.close()
     self.__storage__.close()
 
-  def __fill_youtbal__(self):
+  def __fill_yesterday__(self):
     yesterday=self.yesterday()
     if yesterday:
       pddata=self.__dbroot__[yesterday]

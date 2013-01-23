@@ -13,11 +13,7 @@ class MainFrame(wx.Frame):
   """
   def __init__(self,title,size,schem):
     super(MainFrame,self).__init__(None,title=title,size=size)
-    self.date=app.date
-    self.paypy=paypydb.PayPyDB(self.date,'PayPy.db','')
-    self.data=self.paypy.getdata(self.date)
-    self.schem=schem
-
+    self.__init_data__(app.date,schem)
     self.initUI()
 
     self.timer=wx.Timer()
@@ -28,6 +24,12 @@ class MainFrame(wx.Frame):
     self.Show()
 
   __call__=__init__
+
+  def __init_data__(self,date,schem):
+    self.date=date
+    self.paypy=paypydb.PayPyDB(self.date,'PayPy.db','')
+    self.data=self.paypy.getdata(self.date)
+    self.schem=schem
 
   def initUI(self):
     alldays=self.paypy.alldays()
@@ -51,19 +53,25 @@ class MainFrame(wx.Frame):
     self.paypy.setdata(self.date,self.data)
     self.Update(self.text,[])
 
-    ###---BEGIN:RUB:INBAL
+###---BEGIN:DATE
     self.combo1=wx.ComboBox(self.__panel__,0,self.date,choices=alldays)
+    box['date']=wx.BoxSizer(wx.VERTICAL)
+    self.combo1.Bind(wx.EVT_COMBOBOX,self.onSelectDate)
+    box['date'].Add(self.combo1,flag=wx.RIGHT)
+###---END:DATE
+
+###---BEGIN:RUB:INBAL
     label1=wx.StaticText(self.__panel__,label='incomming balance:')
     btnSaveInbal=wx.Button(self.__panel__,-1,'Save')
     btnSaveInbal.Bind(wx.EVT_BUTTON,lambda event, k=['inbal']: self.onEnter(event,['rur','inbal']))
     box['inbal']=wx.BoxSizer(wx.HORIZONTAL)
-    box['inbal'].Add(self.combo1)
+#    box['inbal'].Add(self.combo1)
     box['inbal'].Add(label1)
     box['inbal'].Add(self.text['rur']['inbal'])
     box['inbal'].Add(btnSaveInbal)
-    ###---END:RUB:INBAL
+###---END:RUB:INBAL
 
-    ###---BEGIN:RUB:INCOM
+###---BEGIN:RUB:INCOM
     box['incom']=wx.BoxSizer(wx.HORIZONTAL)
 
     incom_static_box=wx.StaticBox(self.__panel__,100,label='INCOM')
@@ -188,29 +196,231 @@ class MainFrame(wx.Frame):
     label26=wx.StaticText(self.__panel__,label='usd')
     label27=wx.StaticText(self.__panel__,label='eur')
 
-    incom_reises_static_box=wx.StaticBox(self.__panel__,label='VAL_CORR')
-    incom_reises_static_box_sizer=wx.StaticBoxSizer(incom_reises_static_box,wx.VERTICAL)
-    incom_reises_static_box_sizer.AddMany([label26,self.text['val']['corr']['usd']['inbal'],
-                                           label26,self.text['val']['corr']['usd']['in']['incom'],
-                                           label26,self.text['val']['corr']['usd']['out']['outgo'],
-                                           label26,self.text['val']['corr']['usd']['outbal'],
-                                           label27,self.text['val']['corr']['eur']['inbal'],
-                                           label27,self.text['val']['corr']['eur']['in']['incom'],
-                                           label27,self.text['val']['corr']['eur']['out']['outgo'],
-                                           label27,self.text['val']['corr']['eur']['outbal'])
+    val_corr_inbal_static_box=wx.StaticBox(self.__panel__,label='INBAL')
+    val_corr_inbal_static_box_sizer=wx.StaticBoxSizer(val_corr_inbal_static_box,wx.VERTICAL)
+    val_corr_inbal_static_box_sizer.AddMany([label26,self.text['val']['corr']['usd']['inbal'],
+                                             label27,self.text['val']['corr']['eur']['inbal']])
 
-    incom_static_box_sizer.Add(incom_reises_static_box_sizer,proportion=1)
-    incom_static_box_sizer.Add(incom_mmvb_static_box_sizer,proportion=1)
-    incom_static_box_sizer.Add(incom_3_static_box_sizer,proportion=1)
-    incom_static_box_sizer.Add(incom_other_static_box_sizer,proportion=1)
+    label28=wx.StaticText(self.__panel__,label='usd')
+    label29=wx.StaticText(self.__panel__,label='eur')
 
-    box['incom'].Add(incom_static_box_sizer,wx.EXPAND|wx.ALL)
+    val_corr_incom_static_box=wx.StaticBox(self.__panel__,label='INCOM')
+    val_corr_incom_static_box_sizer=wx.StaticBoxSizer(val_corr_incom_static_box,wx.VERTICAL)
+    val_corr_incom_static_box_sizer.AddMany([label28,self.text['val']['corr']['usd']['in']['incom'],
+                                             label29,self.text['val']['corr']['eur']['in']['incom']])
+
+    label30=wx.StaticText(self.__panel__,label='usd')
+    label31=wx.StaticText(self.__panel__,label='eur')
+
+    val_corr_outgo_static_box=wx.StaticBox(self.__panel__,label='PAYMENTS')
+    val_corr_outgo_static_box_sizer=wx.StaticBoxSizer(val_corr_outgo_static_box,wx.VERTICAL)
+    val_corr_outgo_static_box_sizer.AddMany([label30,self.text['val']['corr']['usd']['out']['payments'],
+                                             label31,self.text['val']['corr']['eur']['out']['payments']])
+
+    label32=wx.StaticText(self.__panel__,label='usd')
+    label33=wx.StaticText(self.__panel__,label='eur')
+
+    val_corr_outbal_static_box=wx.StaticBox(self.__panel__,label='OUTBAL')
+    val_corr_outbal_static_box_sizer=wx.StaticBoxSizer(val_corr_outbal_static_box,wx.VERTICAL)
+    val_corr_outbal_static_box_sizer.AddMany([label32,self.text['val']['corr']['usd']['outbal'],
+                                              label33,self.text['val']['corr']['eur']['outbal']])
+
+    val_corr_static_box_sizer.Add(val_corr_inbal_static_box_sizer,proportion=1)
+    val_corr_static_box_sizer.Add(val_corr_incom_static_box_sizer,proportion=1)
+    val_corr_static_box_sizer.Add(val_corr_outgo_static_box_sizer,proportion=1)
+    val_corr_static_box_sizer.Add(val_corr_outbal_static_box_sizer,proportion=1)
+
+    box['val_corr'].Add(val_corr_static_box_sizer,wx.EXPAND|wx.ALL)
 ###---END:VAL:CORR
 
+###---BEGIN:VAL:MMVB
+    box['val_mmvb']=wx.BoxSizer(wx.HORIZONTAL)
+
+    val_mmvb_static_box=wx.StaticBox(self.__panel__,label='VAL_MMVB')
+    val_mmvb_static_box_sizer=wx.StaticBoxSizer(val_mmvb_static_box,wx.HORIZONTAL)
+
+    label34=wx.StaticText(self.__panel__,label='usd')
+    label35=wx.StaticText(self.__panel__,label='eur')
+    label36=wx.StaticText(self.__panel__,label='rur')
+
+    val_mmvb_inbal_static_box=wx.StaticBox(self.__panel__,label='INBAL')
+    val_mmvb_inbal_static_box_sizer=wx.StaticBoxSizer(val_mmvb_inbal_static_box,wx.VERTICAL)
+    val_mmvb_inbal_static_box_sizer.AddMany([label34,self.text['val']['mmvb']['usd']['inbal'],
+                                             label35,self.text['val']['mmvb']['eur']['inbal'],
+                                             label36,self.text['val']['mmvb']['rur']['inbal']])
+
+    val_mmvb_in_box=wx.BoxSizer(wx.VERTICAL)
+
+    label37=wx.StaticText(self.__panel__,label='usd')
+    label38=wx.StaticText(self.__panel__,label='eur')
+    label39=wx.StaticText(self.__panel__,label='rur')
+
+    val_mmvb_in_depo_static_box=wx.StaticBox(self.__panel__,label='DEPO')
+    val_mmvb_in_depo_static_box_sizer=wx.StaticBoxSizer(val_mmvb_in_depo_static_box,wx.VERTICAL)
+    val_mmvb_in_depo_static_box_sizer.AddMany([label37,self.text['val']['mmvb']['usd']['in']['depo'],
+                                               label38,self.text['val']['mmvb']['eur']['in']['depo'],
+                                               label39,self.text['val']['mmvb']['rur']['in']['depo']])
+
+    label40=wx.StaticText(self.__panel__,label='usd')
+    label41=wx.StaticText(self.__panel__,label='eur')
+    label42=wx.StaticText(self.__panel__,label='rur')
+
+    val_mmvb_in_bay_static_box=wx.StaticBox(self.__panel__,label='BAY')
+    val_mmvb_in_bay_static_box_sizer=wx.StaticBoxSizer(val_mmvb_in_bay_static_box,wx.VERTICAL)
+    val_mmvb_in_bay_static_box_sizer.AddMany([label40,self.text['val']['mmvb']['usd']['in']['bay'],
+                                              label41,self.text['val']['mmvb']['eur']['in']['bay'],
+                                              label42,self.text['val']['mmvb']['rur']['in']['bay']])
+
+    val_mmvb_in_box.Add(val_mmvb_in_depo_static_box_sizer)
+    val_mmvb_in_box.Add(val_mmvb_in_bay_static_box_sizer)
+
+    val_mmvb_out_box=wx.BoxSizer(wx.VERTICAL)
+
+    label43=wx.StaticText(self.__panel__,label='usd')
+    label44=wx.StaticText(self.__panel__,label='eur')
+    label45=wx.StaticText(self.__panel__,label='rur')
+
+    val_mmvb_out_outgo_static_box=wx.StaticBox(self.__panel__,label='OUTGO')
+    val_mmvb_out_outgo_static_box_sizer=wx.StaticBoxSizer(val_mmvb_out_outgo_static_box,wx.VERTICAL)
+    val_mmvb_out_outgo_static_box_sizer.AddMany([label43,self.text['val']['mmvb']['usd']['out']['outgo'],
+                                                 label44,self.text['val']['mmvb']['eur']['out']['outgo'],
+                                                 label45,self.text['val']['mmvb']['rur']['out']['outgo']])
+
+    label46=wx.StaticText(self.__panel__,label='usd')
+    label47=wx.StaticText(self.__panel__,label='eur')
+    label48=wx.StaticText(self.__panel__,label='rur')
+
+    val_mmvb_out_saled_static_box=wx.StaticBox(self.__panel__,label='SALED')
+    val_mmvb_out_saled_static_box_sizer=wx.StaticBoxSizer(val_mmvb_out_saled_static_box,wx.VERTICAL)
+    val_mmvb_out_saled_static_box_sizer.AddMany([label46,self.text['val']['mmvb']['usd']['out']['saled'],
+                                                 label47,self.text['val']['mmvb']['eur']['out']['saled'],
+                                                 label48,self.text['val']['mmvb']['rur']['out']['saled']])
+
+    val_mmvb_out_box.Add(val_mmvb_out_outgo_static_box_sizer)
+    val_mmvb_out_box.Add(val_mmvb_out_saled_static_box_sizer)
+
+    label49=wx.StaticText(self.__panel__,label='usd')
+    label50=wx.StaticText(self.__panel__,label='eur')
+    label51=wx.StaticText(self.__panel__,label='eur')
+
+    val_mmvb_outbal_static_box=wx.StaticBox(self.__panel__,label='OUTBAL')
+    val_mmvb_outbal_static_box_sizer=wx.StaticBoxSizer(val_mmvb_outbal_static_box,wx.VERTICAL)
+    val_mmvb_outbal_static_box_sizer.AddMany([label49,self.text['val']['mmvb']['usd']['outbal'],
+                                              label50,self.text['val']['mmvb']['eur']['outbal'],
+                                              label51,self.text['val']['mmvb']['rur']['outbal']])
+
+    val_mmvb_static_box_sizer.Add(val_mmvb_inbal_static_box_sizer,proportion=1,flag=wx.ALIGN_CENTER_VERTICAL)
+    val_mmvb_static_box_sizer.Add(val_mmvb_in_box,proportion=1)
+    val_mmvb_static_box_sizer.Add(val_mmvb_out_box,proportion=1)
+    val_mmvb_static_box_sizer.Add(val_mmvb_outbal_static_box_sizer,proportion=1,flag=wx.ALIGN_CENTER_VERTICAL)
+
+    box['val_mmvb'].Add(val_mmvb_static_box_sizer,wx.EXPAND|wx.ALL)
+###---END:VAL:MMVB
+
+###---BEGIN:VAL:KASSA
+    box['val_kassa']=wx.BoxSizer(wx.HORIZONTAL)
+
+    val_kassa_static_box=wx.StaticBox(self.__panel__,label='VAL_KASSA')
+    val_kassa_static_box_sizer=wx.StaticBoxSizer(val_kassa_static_box,wx.HORIZONTAL)
+
+    label52=wx.StaticText(self.__panel__,label='usd')
+    label53=wx.StaticText(self.__panel__,label='eur')
+
+    val_kassa_inbal_static_box=wx.StaticBox(self.__panel__,label='INBAL')
+    val_kassa_inbal_static_box_sizer=wx.StaticBoxSizer(val_kassa_inbal_static_box,wx.VERTICAL)
+    val_kassa_inbal_static_box_sizer.AddMany([label52,self.text['val']['kassa']['usd']['inbal'],
+                                              label53,self.text['val']['kassa']['eur']['inbal']])
+
+    label54=wx.StaticText(self.__panel__,label='usd')
+    label55=wx.StaticText(self.__panel__,label='eur')
+
+    val_kassa_incom_static_box=wx.StaticBox(self.__panel__,label='INCOM')
+    val_kassa_incom_static_box_sizer=wx.StaticBoxSizer(val_kassa_incom_static_box,wx.VERTICAL)
+    val_kassa_incom_static_box_sizer.AddMany([label54,self.text['val']['kassa']['usd']['in']['incom'],
+                                              label55,self.text['val']['kassa']['eur']['in']['incom']])
+
+    label56=wx.StaticText(self.__panel__,label='usd')
+    label57=wx.StaticText(self.__panel__,label='eur')
+
+    val_kassa_outgo_static_box=wx.StaticBox(self.__panel__,label='OUTGO')
+    val_kassa_outgo_static_box_sizer=wx.StaticBoxSizer(val_kassa_outgo_static_box,wx.VERTICAL)
+    val_kassa_outgo_static_box_sizer.AddMany([label56,self.text['val']['kassa']['usd']['out']['outgo'],
+                                              label57,self.text['val']['kassa']['eur']['out']['outgo']])
+
+    label58=wx.StaticText(self.__panel__,label='usd')
+    label59=wx.StaticText(self.__panel__,label='eur')
+
+    val_kassa_outbal_static_box=wx.StaticBox(self.__panel__,label='OUTBAL')
+    val_kassa_outbal_static_box_sizer=wx.StaticBoxSizer(val_kassa_outbal_static_box,wx.VERTICAL)
+    val_kassa_outbal_static_box_sizer.AddMany([label58,self.text['val']['kassa']['usd']['outbal'],
+                                               label59,self.text['val']['kassa']['eur']['outbal']])
+
+    val_kassa_static_box_sizer.Add(val_kassa_inbal_static_box_sizer,proportion=1)
+    val_kassa_static_box_sizer.Add(val_kassa_incom_static_box_sizer,proportion=1)
+    val_kassa_static_box_sizer.Add(val_kassa_outgo_static_box_sizer,proportion=1)
+    val_kassa_static_box_sizer.Add(val_kassa_outbal_static_box_sizer,proportion=1)
+
+    box['val_kassa'].Add(val_kassa_static_box_sizer,wx.EXPAND|wx.ALL)
+###---END:VAL:KASSA
+
+###---BEGIN:VAL:OPEN
+    box['val_open']=wx.BoxSizer(wx.HORIZONTAL)
+
+    val_open_static_box=wx.StaticBox(self.__panel__,label='VAL_KASSA')
+    val_open_static_box_sizer=wx.StaticBoxSizer(val_open_static_box,wx.HORIZONTAL)
+
+    label60=wx.StaticText(self.__panel__,label='usd')
+    label61=wx.StaticText(self.__panel__,label='eur')
+
+    val_open_inbal_static_box=wx.StaticBox(self.__panel__,label='INBAL')
+    val_open_inbal_static_box_sizer=wx.StaticBoxSizer(val_open_inbal_static_box,wx.VERTICAL)
+    val_open_inbal_static_box_sizer.AddMany([label60,self.text['val']['open']['usd']['inbal'],
+                                             label61,self.text['val']['open']['eur']['inbal']])
+
+    label62=wx.StaticText(self.__panel__,label='usd')
+    label63=wx.StaticText(self.__panel__,label='eur')
+
+    val_open_incom_static_box=wx.StaticBox(self.__panel__,label='BAY')
+    val_open_incom_static_box_sizer=wx.StaticBoxSizer(val_open_incom_static_box,wx.VERTICAL)
+    val_open_incom_static_box_sizer.AddMany([label62,self.text['val']['open']['usd']['in']['bay'],
+                                             label63,self.text['val']['open']['eur']['in']['bay']])
+
+    label64=wx.StaticText(self.__panel__,label='usd')
+    label65=wx.StaticText(self.__panel__,label='eur')
+
+    val_open_outgo_static_box=wx.StaticBox(self.__panel__,label='SALED')
+    val_open_outgo_static_box_sizer=wx.StaticBoxSizer(val_open_outgo_static_box,wx.VERTICAL)
+    val_open_outgo_static_box_sizer.AddMany([label64,self.text['val']['open']['usd']['out']['saled'],
+                                             label65,self.text['val']['open']['eur']['out']['saled']])
+
+    label66=wx.StaticText(self.__panel__,label='usd')
+    label67=wx.StaticText(self.__panel__,label='eur')
+
+    val_open_outbal_static_box=wx.StaticBox(self.__panel__,label='OUTBAL')
+    val_open_outbal_static_box_sizer=wx.StaticBoxSizer(val_open_outbal_static_box,wx.VERTICAL)
+    val_open_outbal_static_box_sizer.AddMany([label66,self.text['val']['open']['usd']['outbal'],
+                                              label67,self.text['val']['open']['eur']['outbal']])
+
+    val_open_static_box_sizer.Add(val_open_inbal_static_box_sizer,proportion=1)
+    val_open_static_box_sizer.Add(val_open_incom_static_box_sizer,proportion=1)
+    val_open_static_box_sizer.Add(val_open_outgo_static_box_sizer,proportion=1)
+    val_open_static_box_sizer.Add(val_open_outbal_static_box_sizer,proportion=1)
+
+    box['val_open'].Add(val_open_static_box_sizer,wx.EXPAND|wx.ALL)
+###---END:VAL:OPEN
+
+###---BEGIN:HIDE
+###---ENG:HIDE
+
+    mainbox.Add(box['date'])
     mainbox.Add(box['inbal'])
     mainbox.Add(box['incom'])
     mainbox.Add(box['outgo'])
     mainbox.Add(box['outbal'])
+    mainbox.Add(box['val_corr'])
+    mainbox.Add(box['val_mmvb'])
+    mainbox.Add(box['val_kassa'])
+    mainbox.Add(box['val_open'])
 
     for key in box.keys():
       if not key in self.schem['blocks']:
@@ -218,10 +428,6 @@ class MainFrame(wx.Frame):
 
     self.__panel__.SetSizer(mainbox)
     self.__panel__.Layout()
-
-###---BEGIN:BINDINGS
-    #self.Bind(wx.EVT_MENU,self.onQuit,fItem)
-###---END:BINDINGS
 
   def __GenButton__(self,node,keys,size):
     if not isinstance(node,dict):
@@ -262,6 +468,11 @@ class MainFrame(wx.Frame):
 
   def onDClk(self,event,keys):
     datadialog.DataDialog(self,str(keys),(400,400),keys)
+    self.Update(self.text,[])
+
+  def onSelectDate(self,event):
+    del self.paypy
+    self.__init_data__(self.combo1.GetValue(),self.schem)
     self.Update(self.text,[])
 
   def onTimer(self,event):
