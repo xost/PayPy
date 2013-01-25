@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import wx
 import paypy as app
@@ -61,7 +62,7 @@ class MainFrame(wx.Frame):
 ###---END:DATE
 
 ###---BEGIN:RUB:INBAL
-    label1=wx.StaticText(self.__panel__,label='incomming balance:')
+    label1=wx.StaticText(self.__panel__,label=u'Входящий остаток:')
     btnSaveInbal=wx.Button(self.__panel__,-1,'Save')
     btnSaveInbal.Bind(wx.EVT_BUTTON,lambda event, k=['inbal']: self.onEnter(event,['rur','inbal']))
     box['inbal']=wx.BoxSizer(wx.HORIZONTAL)
@@ -74,42 +75,42 @@ class MainFrame(wx.Frame):
 ###---BEGIN:RUB:INCOM
     box['incom']=wx.BoxSizer(wx.HORIZONTAL)
 
-    incom_static_box=wx.StaticBox(self.__panel__,100,label='INCOM')
+    incom_static_box=wx.StaticBox(self.__panel__,100,label=u'Приход')
     incom_static_box_sizer=wx.StaticBoxSizer(incom_static_box,wx.HORIZONTAL)
 
-    label2=wx.StaticText(self.__panel__,label='reises')
-    label3=wx.StaticText(self.__panel__,label='inkas')
-    label4=wx.StaticText(self.__panel__,label='veksel')
+    label2=wx.StaticText(self.__panel__,label=u'Рейсы')
+    label3=wx.StaticText(self.__panel__,label=u'Инкассация')
+    label4=wx.StaticText(self.__panel__,label=u'Векселя')
 
-    incom_reises_static_box=wx.StaticBox(self.__panel__,label='***')
+    incom_reises_static_box=wx.StaticBox(self.__panel__,label=u'***')
     incom_reises_static_box_sizer=wx.StaticBoxSizer(incom_reises_static_box,wx.VERTICAL)
     incom_reises_static_box_sizer.AddMany([label2,self.text['rur']['in']['reises'],
                                            label3,self.text['rur']['in']['inkas'],
                                            label4,self.text['rur']['in']['veks']])
 
-    label5=wx.StaticText(self.__panel__,label='valuta')
-    label6=wx.StaticText(self.__panel__,label='gko')
-    label7=wx.StaticText(self.__panel__,label='oblig')
+    label5=wx.StaticText(self.__panel__,label=u'Валюта')
+    label6=wx.StaticText(self.__panel__,label=u'ГКО, ОФЗ')
+    label7=wx.StaticText(self.__panel__,label=u'Облигации, акции')
 
-    incom_mmvb_static_box=wx.StaticBox(self.__panel__,label='MMVB')
+    incom_mmvb_static_box=wx.StaticBox(self.__panel__,label=u'ММВБ')
     incom_mmvb_static_box_sizer=wx.StaticBoxSizer(incom_mmvb_static_box,wx.VERTICAL)
     incom_mmvb_static_box_sizer.AddMany([label5,self.text['rur']['in']['mmvb_val'],
                                          label6,self.text['rur']['in']['mmvb_gko'],
                                          label7,self.text['rur']['in']['mmvb_oblig']])
 
-    label8=wx.StaticText(self.__panel__,label='mbk')
-    label9=wx.StaticText(self.__panel__,label='client')
+    label8=wx.StaticText(self.__panel__,label=u'МБК')
+    label9=wx.StaticText(self.__panel__,label=u'Клиенты')
 
-    incom_3_static_box=wx.StaticBox(self.__panel__,label='***')
+    incom_3_static_box=wx.StaticBox(self.__panel__,label=u'***')
     incom_3_static_box_sizer=wx.StaticBoxSizer(incom_3_static_box,wx.VERTICAL)
     incom_3_static_box_sizer.AddMany([label8,self.text['rur']['in']['mbk'],
                                       label9,self.text['rur']['in']['clients']])
 
-    label10=wx.StaticText(self.__panel__,label='clients')
-    label11=wx.StaticText(self.__panel__,label='valuta')
-    label12=wx.StaticText(self.__panel__,label='cenbum')
+    label10=wx.StaticText(self.__panel__,label=u'Клиенты')
+    label11=wx.StaticText(self.__panel__,label=u'Валюта')
+    label12=wx.StaticText(self.__panel__,label=u'Ценные бумаги')
 
-    incom_other_static_box=wx.StaticBox(self.__panel__,label='OTHER')
+    incom_other_static_box=wx.StaticBox(self.__panel__,label=u'Прочие')
     incom_other_static_box_sizer=wx.StaticBoxSizer(incom_other_static_box,wx.VERTICAL)
     incom_other_static_box_sizer.AddMany([label10,self.text['rur']['in']['other_clients'],
                                           label11,self.text['rur']['in']['other_val'],
@@ -126,35 +127,35 @@ class MainFrame(wx.Frame):
 ###---BEGIN:RUB:OUTGO
     box['outgo']=wx.BoxSizer(wx.HORIZONTAL)
 
-    outgo_static_box=wx.StaticBox(self.__panel__,label='OUTGO',id=200)
+    outgo_static_box=wx.StaticBox(self.__panel__,label=u'РАСХОД',id=200)
     outgo_static_box_sizer=wx.StaticBoxSizer(outgo_static_box,wx.HORIZONTAL)
 
-    label13=wx.StaticText(self.__panel__,label='clients')
-    label14=wx.StaticText(self.__panel__,label='plan')
-    label15=wx.StaticText(self.__panel__,label='mbk')
+    label13=wx.StaticText(self.__panel__,label=u'Платежи клиентов')
+    label14=wx.StaticText(self.__panel__,label=u'План')
+    label15=wx.StaticText(self.__panel__,label=u'МБК')
 
-    outgo_1_static_box=wx.StaticBox(self.__panel__,label='***')
+    outgo_1_static_box=wx.StaticBox(self.__panel__,label=u'***')
     outgo_1_static_box_sizer=wx.wx.StaticBoxSizer(outgo_1_static_box,wx.VERTICAL)
     outgo_1_static_box_sizer.AddMany([label13,self.text['rur']['out']['clients'],
                                       label14,self.text['rur']['out']['plan'],
                                       label15,self.text['rur']['out']['mbk']])
 
-    label16=wx.StaticText(self.__panel__,label='valuta')
-    label17=wx.StaticText(self.__panel__,label='gko')
-    label18=wx.StaticText(self.__panel__,label='oblig')
+    label16=wx.StaticText(self.__panel__,label=u'Валюта')
+    label17=wx.StaticText(self.__panel__,label=u'ГКО, ОФЗ')
+    label18=wx.StaticText(self.__panel__,label=u'Облигации, акции')
 
-    outgo_2_static_box=wx.StaticBox(self.__panel__,label='MMVB')
+    outgo_2_static_box=wx.StaticBox(self.__panel__,label=u'ММВБ')
     outgo_2_static_box_sizer=wx.wx.StaticBoxSizer(outgo_2_static_box,wx.VERTICAL)
     outgo_2_static_box_sizer.AddMany([label16,self.text['rur']['out']['mmvb_val'],
                                       label17,self.text['rur']['out']['mmvb_gko'],
                                       label18,self.text['rur']['out']['mmvb_oblig']])
 
-    label19=wx.StaticText(self.__panel__,label='gib')
-    label20=wx.StaticText(self.__panel__,label='other')
-    label21=wx.StaticText(self.__panel__,label='gib')
+    label19=wx.StaticText(self.__panel__,label=u'ГИБ')
+    label20=wx.StaticText(self.__panel__,label=u'Прочие')
+    label21=wx.StaticText(self.__panel__,label=u'Платежи ГИБ')
 
     outgo_3_box_sizer=wx.BoxSizer(wx.VERTICAL)
-    outgo_3_static_box=wx.StaticBox(self.__panel__,label='VEKSEL')
+    outgo_3_static_box=wx.StaticBox(self.__panel__,label=u'Векселя')
     outgo_3_static_box_sizer=wx.wx.StaticBoxSizer(outgo_3_static_box,wx.VERTICAL)
     outgo_3_static_box_sizer.AddMany([label19,self.text['rur']['out']['veks_gib'],
                                       label20,self.text['rur']['out']['veks_other']])
@@ -162,11 +163,11 @@ class MainFrame(wx.Frame):
     outgo_3_box_sizer.Add(label21)
     outgo_3_box_sizer.Add(self.text['rur']['out']['gib'])
 
-    label22=wx.StaticText(self.__panel__,label='valuta')
-    label23=wx.StaticText(self.__panel__,label='cenbum')
+    label22=wx.StaticText(self.__panel__,label=u'Валюта')
+    label23=wx.StaticText(self.__panel__,label=u'Ценные бумаги')
 
     outgo_4_box_sizer=wx.BoxSizer(wx.VERTICAL)
-    outgo_4_static_box=wx.StaticBox(self.__panel__,label='OTHER')
+    outgo_4_static_box=wx.StaticBox(self.__panel__,label=u'Прочее')
     outgo_4_static_box_sizer=wx.wx.StaticBoxSizer(outgo_4_static_box,wx.VERTICAL)
     outgo_4_static_box_sizer.AddMany([label22,self.text['rur']['out']['other_val'],
                                       label23,self.text['rur']['out']['other_cenbum']])
@@ -181,7 +182,7 @@ class MainFrame(wx.Frame):
 ###---END:RUB:OUTGO
 
 ###---BEGIN:RUB:OUTBAL
-    label25=wx.StaticText(self.__panel__,label='outgoing balance:')
+    label25=wx.StaticText(self.__panel__,label=u'Исходящий остаток:')
     box['outbal']=wx.BoxSizer(wx.HORIZONTAL)
     box['outbal'].Add(label25)
     box['outbal'].Add(self.text['rur']['outbal'])
@@ -190,37 +191,37 @@ class MainFrame(wx.Frame):
 ###---BEGIN:VAL:CORR
     box['val_corr']=wx.BoxSizer(wx.HORIZONTAL)
 
-    val_corr_static_box=wx.StaticBox(self.__panel__,label='VAL_CORR')
+    val_corr_static_box=wx.StaticBox(self.__panel__,label=u'Корреспондентские счета')
     val_corr_static_box_sizer=wx.StaticBoxSizer(val_corr_static_box,wx.HORIZONTAL)
 
-    label26=wx.StaticText(self.__panel__,label='usd')
-    label27=wx.StaticText(self.__panel__,label='eur')
+    label26=wx.StaticText(self.__panel__,label=u'usd')
+    label27=wx.StaticText(self.__panel__,label=u'eur')
 
-    val_corr_inbal_static_box=wx.StaticBox(self.__panel__,label='INBAL')
+    val_corr_inbal_static_box=wx.StaticBox(self.__panel__,label=u'Входящие остатки')
     val_corr_inbal_static_box_sizer=wx.StaticBoxSizer(val_corr_inbal_static_box,wx.VERTICAL)
     val_corr_inbal_static_box_sizer.AddMany([label26,self.text['val']['corr']['usd']['inbal'],
                                              label27,self.text['val']['corr']['eur']['inbal']])
 
-    label28=wx.StaticText(self.__panel__,label='usd')
-    label29=wx.StaticText(self.__panel__,label='eur')
+    label28=wx.StaticText(self.__panel__,label=u'usd')
+    label29=wx.StaticText(self.__panel__,label=u'eur')
 
-    val_corr_incom_static_box=wx.StaticBox(self.__panel__,label='INCOM')
+    val_corr_incom_static_box=wx.StaticBox(self.__panel__,label=u'Поступления')
     val_corr_incom_static_box_sizer=wx.StaticBoxSizer(val_corr_incom_static_box,wx.VERTICAL)
     val_corr_incom_static_box_sizer.AddMany([label28,self.text['val']['corr']['usd']['in']['incom'],
                                              label29,self.text['val']['corr']['eur']['in']['incom']])
 
-    label30=wx.StaticText(self.__panel__,label='usd')
-    label31=wx.StaticText(self.__panel__,label='eur')
+    label30=wx.StaticText(self.__panel__,label=u'usd')
+    label31=wx.StaticText(self.__panel__,label=u'eur')
 
-    val_corr_outgo_static_box=wx.StaticBox(self.__panel__,label='PAYMENTS')
+    val_corr_outgo_static_box=wx.StaticBox(self.__panel__,label=u'Платежи')
     val_corr_outgo_static_box_sizer=wx.StaticBoxSizer(val_corr_outgo_static_box,wx.VERTICAL)
     val_corr_outgo_static_box_sizer.AddMany([label30,self.text['val']['corr']['usd']['out']['payments'],
                                              label31,self.text['val']['corr']['eur']['out']['payments']])
 
-    label32=wx.StaticText(self.__panel__,label='usd')
-    label33=wx.StaticText(self.__panel__,label='eur')
+    label32=wx.StaticText(self.__panel__,label=u'usd')
+    label33=wx.StaticText(self.__panel__,label=u'eur')
 
-    val_corr_outbal_static_box=wx.StaticBox(self.__panel__,label='OUTBAL')
+    val_corr_outbal_static_box=wx.StaticBox(self.__panel__,label=u'Исходящие остатки')
     val_corr_outbal_static_box_sizer=wx.StaticBoxSizer(val_corr_outbal_static_box,wx.VERTICAL)
     val_corr_outbal_static_box_sizer.AddMany([label32,self.text['val']['corr']['usd']['outbal'],
                                               label33,self.text['val']['corr']['eur']['outbal']])
@@ -236,14 +237,14 @@ class MainFrame(wx.Frame):
 ###---BEGIN:VAL:MMVB
     box['val_mmvb']=wx.BoxSizer(wx.HORIZONTAL)
 
-    val_mmvb_static_box=wx.StaticBox(self.__panel__,label='VAL_MMVB')
+    val_mmvb_static_box=wx.StaticBox(self.__panel__,label=u'ММВБ')
     val_mmvb_static_box_sizer=wx.StaticBoxSizer(val_mmvb_static_box,wx.HORIZONTAL)
 
-    label34=wx.StaticText(self.__panel__,label='usd')
-    label35=wx.StaticText(self.__panel__,label='eur')
-    label36=wx.StaticText(self.__panel__,label='rur')
+    label34=wx.StaticText(self.__panel__,label=u'usd')
+    label35=wx.StaticText(self.__panel__,label=u'eur')
+    label36=wx.StaticText(self.__panel__,label=u'rur')
 
-    val_mmvb_inbal_static_box=wx.StaticBox(self.__panel__,label='INBAL')
+    val_mmvb_inbal_static_box=wx.StaticBox(self.__panel__,label=u'Входящие остатки')
     val_mmvb_inbal_static_box_sizer=wx.StaticBoxSizer(val_mmvb_inbal_static_box,wx.VERTICAL)
     val_mmvb_inbal_static_box_sizer.AddMany([label34,self.text['val']['mmvb']['usd']['inbal'],
                                              label35,self.text['val']['mmvb']['eur']['inbal'],
@@ -251,21 +252,21 @@ class MainFrame(wx.Frame):
 
     val_mmvb_in_box=wx.BoxSizer(wx.VERTICAL)
 
-    label37=wx.StaticText(self.__panel__,label='usd')
-    label38=wx.StaticText(self.__panel__,label='eur')
-    label39=wx.StaticText(self.__panel__,label='rur')
+    label37=wx.StaticText(self.__panel__,label=u'usd')
+    label38=wx.StaticText(self.__panel__,label=u'eur')
+    label39=wx.StaticText(self.__panel__,label=u'rur')
 
-    val_mmvb_in_depo_static_box=wx.StaticBox(self.__panel__,label='DEPO')
+    val_mmvb_in_depo_static_box=wx.StaticBox(self.__panel__,label=u'Депонировано')
     val_mmvb_in_depo_static_box_sizer=wx.StaticBoxSizer(val_mmvb_in_depo_static_box,wx.VERTICAL)
     val_mmvb_in_depo_static_box_sizer.AddMany([label37,self.text['val']['mmvb']['usd']['in']['depo'],
                                                label38,self.text['val']['mmvb']['eur']['in']['depo'],
                                                label39,self.text['val']['mmvb']['rur']['in']['depo']])
 
-    label40=wx.StaticText(self.__panel__,label='usd')
-    label41=wx.StaticText(self.__panel__,label='eur')
-    label42=wx.StaticText(self.__panel__,label='rur')
+    label40=wx.StaticText(self.__panel__,label=u'usd')
+    label41=wx.StaticText(self.__panel__,label=u'eur')
+    label42=wx.StaticText(self.__panel__,label=u'rur')
 
-    val_mmvb_in_bay_static_box=wx.StaticBox(self.__panel__,label='BAY')
+    val_mmvb_in_bay_static_box=wx.StaticBox(self.__panel__,label=u'Куплено')
     val_mmvb_in_bay_static_box_sizer=wx.StaticBoxSizer(val_mmvb_in_bay_static_box,wx.VERTICAL)
     val_mmvb_in_bay_static_box_sizer.AddMany([label40,self.text['val']['mmvb']['usd']['in']['bay'],
                                               label41,self.text['val']['mmvb']['eur']['in']['bay'],
@@ -276,21 +277,21 @@ class MainFrame(wx.Frame):
 
     val_mmvb_out_box=wx.BoxSizer(wx.VERTICAL)
 
-    label43=wx.StaticText(self.__panel__,label='usd')
-    label44=wx.StaticText(self.__panel__,label='eur')
-    label45=wx.StaticText(self.__panel__,label='rur')
+    label43=wx.StaticText(self.__panel__,label=u'usd')
+    label44=wx.StaticText(self.__panel__,label=u'eur')
+    label45=wx.StaticText(self.__panel__,label=u'rur')
 
-    val_mmvb_out_outgo_static_box=wx.StaticBox(self.__panel__,label='OUTGO')
+    val_mmvb_out_outgo_static_box=wx.StaticBox(self.__panel__,label=u'Выведено')
     val_mmvb_out_outgo_static_box_sizer=wx.StaticBoxSizer(val_mmvb_out_outgo_static_box,wx.VERTICAL)
     val_mmvb_out_outgo_static_box_sizer.AddMany([label43,self.text['val']['mmvb']['usd']['out']['outgo'],
                                                  label44,self.text['val']['mmvb']['eur']['out']['outgo'],
                                                  label45,self.text['val']['mmvb']['rur']['out']['outgo']])
 
-    label46=wx.StaticText(self.__panel__,label='usd')
-    label47=wx.StaticText(self.__panel__,label='eur')
-    label48=wx.StaticText(self.__panel__,label='rur')
+    label46=wx.StaticText(self.__panel__,label=u'usd')
+    label47=wx.StaticText(self.__panel__,label=u'eur')
+    label48=wx.StaticText(self.__panel__,label=u'rur')
 
-    val_mmvb_out_saled_static_box=wx.StaticBox(self.__panel__,label='SALED')
+    val_mmvb_out_saled_static_box=wx.StaticBox(self.__panel__,label=u'Продано')
     val_mmvb_out_saled_static_box_sizer=wx.StaticBoxSizer(val_mmvb_out_saled_static_box,wx.VERTICAL)
     val_mmvb_out_saled_static_box_sizer.AddMany([label46,self.text['val']['mmvb']['usd']['out']['saled'],
                                                  label47,self.text['val']['mmvb']['eur']['out']['saled'],
@@ -299,11 +300,11 @@ class MainFrame(wx.Frame):
     val_mmvb_out_box.Add(val_mmvb_out_outgo_static_box_sizer)
     val_mmvb_out_box.Add(val_mmvb_out_saled_static_box_sizer)
 
-    label49=wx.StaticText(self.__panel__,label='usd')
-    label50=wx.StaticText(self.__panel__,label='eur')
-    label51=wx.StaticText(self.__panel__,label='eur')
+    label49=wx.StaticText(self.__panel__,label=u'usd')
+    label50=wx.StaticText(self.__panel__,label=u'eur')
+    label51=wx.StaticText(self.__panel__,label=u'eur')
 
-    val_mmvb_outbal_static_box=wx.StaticBox(self.__panel__,label='OUTBAL')
+    val_mmvb_outbal_static_box=wx.StaticBox(self.__panel__,label=u'Исходящие остатки')
     val_mmvb_outbal_static_box_sizer=wx.StaticBoxSizer(val_mmvb_outbal_static_box,wx.VERTICAL)
     val_mmvb_outbal_static_box_sizer.AddMany([label49,self.text['val']['mmvb']['usd']['outbal'],
                                               label50,self.text['val']['mmvb']['eur']['outbal'],
@@ -320,37 +321,37 @@ class MainFrame(wx.Frame):
 ###---BEGIN:VAL:KASSA
     box['val_kassa']=wx.BoxSizer(wx.HORIZONTAL)
 
-    val_kassa_static_box=wx.StaticBox(self.__panel__,label='VAL_KASSA')
+    val_kassa_static_box=wx.StaticBox(self.__panel__,label=u'Касса')
     val_kassa_static_box_sizer=wx.StaticBoxSizer(val_kassa_static_box,wx.HORIZONTAL)
 
-    label52=wx.StaticText(self.__panel__,label='usd')
-    label53=wx.StaticText(self.__panel__,label='eur')
+    label52=wx.StaticText(self.__panel__,label=u'usd')
+    label53=wx.StaticText(self.__panel__,label=u'eur')
 
-    val_kassa_inbal_static_box=wx.StaticBox(self.__panel__,label='INBAL')
+    val_kassa_inbal_static_box=wx.StaticBox(self.__panel__,label=u'Входящие остатки')
     val_kassa_inbal_static_box_sizer=wx.StaticBoxSizer(val_kassa_inbal_static_box,wx.VERTICAL)
     val_kassa_inbal_static_box_sizer.AddMany([label52,self.text['val']['kassa']['usd']['inbal'],
                                               label53,self.text['val']['kassa']['eur']['inbal']])
 
-    label54=wx.StaticText(self.__panel__,label='usd')
-    label55=wx.StaticText(self.__panel__,label='eur')
+    label54=wx.StaticText(self.__panel__,label=u'usd')
+    label55=wx.StaticText(self.__panel__,label=u'eur')
 
-    val_kassa_incom_static_box=wx.StaticBox(self.__panel__,label='INCOM')
+    val_kassa_incom_static_box=wx.StaticBox(self.__panel__,label=u'Внесено')
     val_kassa_incom_static_box_sizer=wx.StaticBoxSizer(val_kassa_incom_static_box,wx.VERTICAL)
     val_kassa_incom_static_box_sizer.AddMany([label54,self.text['val']['kassa']['usd']['in']['incom'],
                                               label55,self.text['val']['kassa']['eur']['in']['incom']])
 
-    label56=wx.StaticText(self.__panel__,label='usd')
-    label57=wx.StaticText(self.__panel__,label='eur')
+    label56=wx.StaticText(self.__panel__,label=u'usd')
+    label57=wx.StaticText(self.__panel__,label=u'eur')
 
-    val_kassa_outgo_static_box=wx.StaticBox(self.__panel__,label='OUTGO')
+    val_kassa_outgo_static_box=wx.StaticBox(self.__panel__,label=u'Снято')
     val_kassa_outgo_static_box_sizer=wx.StaticBoxSizer(val_kassa_outgo_static_box,wx.VERTICAL)
     val_kassa_outgo_static_box_sizer.AddMany([label56,self.text['val']['kassa']['usd']['out']['outgo'],
                                               label57,self.text['val']['kassa']['eur']['out']['outgo']])
 
-    label58=wx.StaticText(self.__panel__,label='usd')
-    label59=wx.StaticText(self.__panel__,label='eur')
+    label58=wx.StaticText(self.__panel__,label=u'usd')
+    label59=wx.StaticText(self.__panel__,label=u'eur')
 
-    val_kassa_outbal_static_box=wx.StaticBox(self.__panel__,label='OUTBAL')
+    val_kassa_outbal_static_box=wx.StaticBox(self.__panel__,label=u'Исходящие остатки')
     val_kassa_outbal_static_box_sizer=wx.StaticBoxSizer(val_kassa_outbal_static_box,wx.VERTICAL)
     val_kassa_outbal_static_box_sizer.AddMany([label58,self.text['val']['kassa']['usd']['outbal'],
                                                label59,self.text['val']['kassa']['eur']['outbal']])
@@ -366,37 +367,37 @@ class MainFrame(wx.Frame):
 ###---BEGIN:VAL:OPEN
     box['val_open']=wx.BoxSizer(wx.HORIZONTAL)
 
-    val_open_static_box=wx.StaticBox(self.__panel__,label='VAL_KASSA')
+    val_open_static_box=wx.StaticBox(self.__panel__,label=u'Открытая валютная позиция')
     val_open_static_box_sizer=wx.StaticBoxSizer(val_open_static_box,wx.HORIZONTAL)
 
-    label60=wx.StaticText(self.__panel__,label='usd')
-    label61=wx.StaticText(self.__panel__,label='eur')
+    label60=wx.StaticText(self.__panel__,label=u'usd')
+    label61=wx.StaticText(self.__panel__,label=u'eur')
 
-    val_open_inbal_static_box=wx.StaticBox(self.__panel__,label='INBAL')
+    val_open_inbal_static_box=wx.StaticBox(self.__panel__,label=u'Входящие остатки')
     val_open_inbal_static_box_sizer=wx.StaticBoxSizer(val_open_inbal_static_box,wx.VERTICAL)
     val_open_inbal_static_box_sizer.AddMany([label60,self.text['val']['open']['usd']['inbal'],
                                              label61,self.text['val']['open']['eur']['inbal']])
 
-    label62=wx.StaticText(self.__panel__,label='usd')
-    label63=wx.StaticText(self.__panel__,label='eur')
+    label62=wx.StaticText(self.__panel__,label=u'usd')
+    label63=wx.StaticText(self.__panel__,label=u'eur')
 
-    val_open_incom_static_box=wx.StaticBox(self.__panel__,label='BAY')
+    val_open_incom_static_box=wx.StaticBox(self.__panel__,label=u'Куплено')
     val_open_incom_static_box_sizer=wx.StaticBoxSizer(val_open_incom_static_box,wx.VERTICAL)
     val_open_incom_static_box_sizer.AddMany([label62,self.text['val']['open']['usd']['in']['bay'],
                                              label63,self.text['val']['open']['eur']['in']['bay']])
 
-    label64=wx.StaticText(self.__panel__,label='usd')
-    label65=wx.StaticText(self.__panel__,label='eur')
+    label64=wx.StaticText(self.__panel__,label=u'usd')
+    label65=wx.StaticText(self.__panel__,label=u'eur')
 
-    val_open_outgo_static_box=wx.StaticBox(self.__panel__,label='SALED')
+    val_open_outgo_static_box=wx.StaticBox(self.__panel__,label=u'Продано')
     val_open_outgo_static_box_sizer=wx.StaticBoxSizer(val_open_outgo_static_box,wx.VERTICAL)
     val_open_outgo_static_box_sizer.AddMany([label64,self.text['val']['open']['usd']['out']['saled'],
                                              label65,self.text['val']['open']['eur']['out']['saled']])
 
-    label66=wx.StaticText(self.__panel__,label='usd')
-    label67=wx.StaticText(self.__panel__,label='eur')
+    label66=wx.StaticText(self.__panel__,label=u'usd')
+    label67=wx.StaticText(self.__panel__,label=u'eur')
 
-    val_open_outbal_static_box=wx.StaticBox(self.__panel__,label='OUTBAL')
+    val_open_outbal_static_box=wx.StaticBox(self.__panel__,label=u'Исходящие остатки')
     val_open_outbal_static_box_sizer=wx.StaticBoxSizer(val_open_outbal_static_box,wx.VERTICAL)
     val_open_outbal_static_box_sizer.AddMany([label66,self.text['val']['open']['usd']['outbal'],
                                               label67,self.text['val']['open']['eur']['outbal']])
