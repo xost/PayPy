@@ -54,17 +54,31 @@ class Calculations(model.Model):
 
   def calcbal(self,data,block):
     value=0.0
+    add=0.0
+    sub=0.0
     for operation, keys in self.outbal.items():
       for i in keys:
         key=block[:]
         key.extend(i)
         if operation=='add':
-          value+=self.calc(data,key)
+          add+=self.calc(data,key)
         else:
-          value-=self.calc(data,key)
+          sub+=self.calc(data,key)
+    value=add-sub
     tmp=block[:]
     tmp.append('outbal')
     self.setnode(data,tmp,[{'value':value,'time':self.time(),'description':'Outgoing ballance for %s' %(block)}])
+    tmp.pop()
+    tmp.append('outgo')
+    value=self.findnode(data,tmp)
+    try:
+      if not str(value[0]['value'])==value:
+        self.setnode(data,tmp,[{'value':sub,'time':self.time(),'description':'Outgoing ballance for %s' %(block)}])
+        print value
+        print str(value[0]['value'])
+    except:
+      pass
+    
 
   def calcallbal(self,data):
     try:

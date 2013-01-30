@@ -53,7 +53,6 @@ class MainFrame(wx.Frame):
 
     self.paypy.calcallbal(self.data)
     self.paypy.setdata(self.date,self.data)
-    self.Update(self.text,[])
 
 ###---BEGIN:DATE
     self.datepicker=wx.DatePickerCtrl(self.__panel__,-1,wx.DateTime_Now(),style=wx.DP_DROPDOWN)
@@ -126,10 +125,12 @@ class MainFrame(wx.Frame):
 ###---END:RUB:INCOM
 
 ###---BEGIN:RUB:OUTGO
-    box['outgo']=wx.BoxSizer(wx.HORIZONTAL)
+    box['outgo']=wx.BoxSizer(wx.VERTICAL)
 
     outgo_static_box=wx.StaticBox(self.__panel__,label=u'РАСХОД',id=200)
-    outgo_static_box_sizer=wx.StaticBoxSizer(outgo_static_box,wx.HORIZONTAL)
+    outgo_static_box_sizer=wx.StaticBoxSizer(outgo_static_box,wx.VERTICAL)
+
+    outgo_box_fields=wx.BoxSizer(wx.HORIZONTAL)
 
     label13=wx.StaticText(self.__panel__,label=u'Платежи клиентов')
     label14=wx.StaticText(self.__panel__,label=u'План')
@@ -174,10 +175,20 @@ class MainFrame(wx.Frame):
                                       label23,self.text['rur']['out']['other_cenbum']])
     outgo_4_box_sizer.Add(outgo_4_static_box_sizer,wx.EXPAND)
 
-    outgo_static_box_sizer.Add(outgo_1_static_box_sizer,proportion=1)
-    outgo_static_box_sizer.Add(outgo_2_static_box_sizer,proportion=1)
-    outgo_static_box_sizer.Add(outgo_3_box_sizer,proportion=1)
-    outgo_static_box_sizer.Add(outgo_4_box_sizer,proportion=1)
+    outgo_box_fields.Add(outgo_1_static_box_sizer,proportion=1)
+    outgo_box_fields.Add(outgo_2_static_box_sizer,proportion=1)
+    outgo_box_fields.Add(outgo_3_box_sizer,proportion=1)
+    outgo_box_fields.Add(outgo_4_box_sizer,proportion=1)
+
+    outgo_box_total=wx.BoxSizer(wx.HORIZONTAL)
+
+    self.outgo_time=wx.StaticText(self.__panel__,-1)
+
+    outgo_box_total.Add(self.text['rur']['outgo'])
+    outgo_box_total.Add(self.outgo_time)
+
+    outgo_static_box_sizer.Add(outgo_box_fields)
+    outgo_static_box_sizer.Add(outgo_box_total)
 
     box['outgo'].Add(outgo_static_box_sizer,wx.EXPAND|wx.ALL)
 ###---END:RUB:OUTGO
@@ -431,11 +442,15 @@ class MainFrame(wx.Frame):
     self.__panel__.SetSizer(mainbox)
     self.__panel__.Layout()
 
+    self.Update(self.text,[])
+
   def __GenButton__(self,node,keys,size):
     if not isinstance(node,dict):
       value=self.paypy.calc(self.data,keys)
       node=wx.TextCtrl(self.__panel__,-1,str(value),size,style=wx.TE_PROCESS_ENTER)
-      if keys in self.paypy.editable and not keys in self.schem['readonly']:
+      if keys in self.paypy.hide:
+        node.Show(False)
+      elif keys in self.paypy.editable and not keys in self.schem['readonly']:
         node.Bind(wx.EVT_TEXT_ENTER,lambda event, k=keys[:]: self.onEnter(event,k))
       else:
         node.SetEditable(False)
@@ -492,6 +507,10 @@ class MainFrame(wx.Frame):
         keys.append(key)
         self.Update(node[key],keys)
         keys.pop()
+    #try:
+    #  self.outgo_time.SetLabel(self.paypy.findnode(self.data,['rur','out_total'])[0]['time'])
+    #except:
+    #  self.outgo_time.SetLabel('00:00:00')
 
   def onQuit(self,e):
     del(self.data)
