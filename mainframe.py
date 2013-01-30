@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import wx
+from wx import calendar
 import paypy as app
 import paypydb
 import datetime
@@ -55,10 +56,10 @@ class MainFrame(wx.Frame):
     self.Update(self.text,[])
 
 ###---BEGIN:DATE
-    self.combo1=wx.ComboBox(self.__panel__,0,self.date,choices=alldays)
+    self.datepicker=wx.DatePickerCtrl(self.__panel__,-1,wx.DateTime_Now(),style=wx.DP_DROPDOWN)
     box['date']=wx.BoxSizer(wx.VERTICAL)
-    self.combo1.Bind(wx.EVT_COMBOBOX,self.onSelectDate)
-    box['date'].Add(self.combo1,flag=wx.RIGHT)
+    self.datepicker.Bind(wx.EVT_DATE_CHANGED,self.onChangedDate)
+    box['date'].Add(self.datepicker,flag=wx.RIGHT)
 ###---END:DATE
 
 ###---BEGIN:RUB:INBAL
@@ -471,9 +472,12 @@ class MainFrame(wx.Frame):
     datadialog.DataDialog(self,str(keys),(400,400),keys)
     self.Update(self.text,[])
 
-  def onSelectDate(self,event):
+  def onChangedDate(self,event): 
+    date=str(self.datepicker.GetValue()).split(' ')[0].split('.')
+    date.reverse()
+    date='/'.join(date)
     del self.paypy
-    self.__init_data__(self.combo1.GetValue(),self.schem)
+    self.__init_data__(date,self.schem)
     self.Update(self.text,[])
 
   def onTimer(self,event):

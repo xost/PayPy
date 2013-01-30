@@ -1,4 +1,6 @@
 from distutils.core import setup
+#import sys
 import py2exe
 
-setup(console=['paypy.py'],options={'py2exe':{'dll_excludes':['MSVCP90.dll']}})
+#sys.path.append()
+setup(windows = [{"script": "paypy.py"}],options = {"py2exe" : {'packages': ['ZODB.config','ZODB.DB']}})
