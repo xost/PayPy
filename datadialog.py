@@ -103,4 +103,5 @@ class DataDialog(wx.Dialog):
       self.parent.paypy.setdata(self.parent.date,self.parent.data)
   
   def onClose(self,event):
+    self.onOk(event)
     self.Destroy()

@@ -71,14 +71,11 @@ class Calculations(model.Model):
     tmp.pop()
     tmp.append('outgo')
     value=self.findnode(data,tmp)
-    try:
-      if not str(value[0]['value'])==value:
-        self.setnode(data,tmp,[{'value':sub,'time':self.time(),'description':'Outgoing ballance for %s' %(block)}])
-        print value
-        print str(value[0]['value'])
-    except:
-      pass
-    
+    self.setnode(data,tmp,[{'value':sub,'time':self.time(),'description':'Outgoing total for %s' %(block)}])
+    tmp.pop()
+    tmp.append('incomtotal')
+    value=self.findnode(data,tmp)
+    self.setnode(data,tmp,[{'value':add,'time':self.time(),'description':'Incoming total for %s' %(block)}])
 
   def calcallbal(self,data):
     try:
