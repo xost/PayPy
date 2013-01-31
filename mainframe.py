@@ -530,16 +530,14 @@ class MainFrame(wx.Frame):
         keys.append(key)
         self.Update(node[key],keys)
         keys.pop()
-   #print self.paypy.findnode(self.data,['rur','outgo'])[0]['value']
-    #self.label_outgo_value.SetLabel('{0:,}'.format(self.paypy.findnode(self.data,['rur','outgo'])[0]['value']).replace(',',' '))
-
+    try:
+      self.fixtime.SetLabel(label=self.paypy.findnode(self.data,['rur','outgofix'])[0]['time'])
+    except:
+      pass
+ 
   def onFix(self,e,src,dst):
     self.paypy.setnode(self.data,dst,self.paypy.findnode(self.data,src))
     self.paypy.setdata(self.date,self.data)
-    try:
-      self.fixtime.SetLabel(label=self.paypy.findnode(self.data,dst)[0]['time'])
-    except:
-      pass
     self.Update(self.text,[])
 
   def onQuit(self,e):
