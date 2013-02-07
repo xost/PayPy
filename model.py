@@ -15,6 +15,7 @@ class Model(object):
          'outgo':[],
          'outgofix':[],
          'plan':[],
+         'outclients':[],
          'in':{'reises':[],
                'inkas':[],
                'veks':[],
@@ -27,8 +28,7 @@ class Model(object):
                'other_val':[],
                'other_cenbum':[]
               },
-         'out':{'clients':[],
-                'mbk':[],
+         'out':{'mbk':[],
                 'mmvb_val':[],
                 'mmvb_gko':[],
                 'mmvb_oblig':[],
@@ -40,15 +40,15 @@ class Model(object):
                }
         }
 
-    val={'corr':{'usd':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[]},
-                 'eur':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[]}},
-         'mmvb':{'usd':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[]},
-                 'eur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[]},
-                 'rur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[]}},
-         'kassa':{'usd':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[]},
-                  'eur':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[]}},
-         'open':{'usd':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[]},
-                 'eur':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[]}}
+    val={'corr':{'usd':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[],'outclients':[]},
+                 'eur':{'in':{'incom':[]},'out':{'payments':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[],'outclients':[]}},
+         'mmvb':{'usd':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[],'outclients':[]},
+                 'eur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[],'outclients':[]},
+                 'rur':{'in':{'depo':[],'bay':[]},'out':{'outgo':[],'saled':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[],'outclients':[]}},
+         'kassa':{'usd':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[],'outclients':[]},
+                  'eur':{'in':{'incom':[]},'out':{'outgo':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[],'outclients':[]}},
+         'open':{'usd':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[],'outclients':[]},
+                 'eur':{'in':{'bay':[]},'out':{'saled':[]},'inbal':[],'plan':[],'incomtotal':[],'outbal':[],'outgo':[],'outgofix':[],'outclients':[]}}
         }
 
     self.model={'rur':rur,'val':val}
