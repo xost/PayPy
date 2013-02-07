@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from ZODB.config import storageFromURL
-from ZODB import DB
+from ZODB import DB,FileStorage
 from persistent.mapping import PersistentMapping
 from persistent import Persistent
 import transaction
@@ -15,6 +15,7 @@ class PayPyDB(calculations.Calculations):
     super(PayPyDB,self).__init__()
     #connect to database
     logging.basicConfig()
+    #self.__storage__=FileStorage.FileStorage(dbfn)
     self.__storage__=storageFromURL('storage.conf')
     self.__db__=DB(self.__storage__)
     self.__connection__=self.__db__.open()

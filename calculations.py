@@ -68,15 +68,32 @@ class Calculations(model.Model):
     tmp=block[:]
     tmp.append('outbal')
     self.setnode(data,tmp,[{'value':value,'time':self.time(),'description':'Outgoing ballance for %s' %(block)}])
-    tmp.pop()
-    tmp.append('outgo')
-    value=self.findnode(data,tmp)
-    self.setnode(data,tmp,[{'value':sub,'time':self.time(),'description':'Outgoing total for %s' %(block)}])
+    #tmp.pop()
+    #tmp.append('outgo')
+    #value=self.findnode(data,tmp)
+    #self.setnode(data,tmp,[{'value':sub,'time':self.time(),'description':'Outgoing total for %s' %(block)}])
     tmp.pop()
     tmp.append('incomtotal')
     value=self.findnode(data,tmp)
     self.setnode(data,tmp,[{'value':add,'time':self.time(),'description':'Incoming total for %s' %(block)}])
 
+    value=0.0
+    add=0.0
+    sub=0.0
+    for operation, keys in self.outclients.items():
+      for i in keys:
+        key=block[:]
+        key.extend(i)
+        if operation=='add':
+          add+=self.calc(data,key)
+        else:
+          sub+=self.calc(data,key)
+    value=add-sub
+    tmp.pop()
+    tmp=block[:]
+    tmp.append('outclients')
+    self.setnode(data,tmp,[{'value':value,'time':self.time(),'description':'Client payments %s' %(block)}])
+  
   def calcallbal(self,data):
     try:
       for block in self.blocks:

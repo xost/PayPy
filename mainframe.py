@@ -20,7 +20,7 @@ class MainFrame(wx.Frame):
 
     self.timer=wx.Timer()
     self.timer.Bind(wx.EVT_TIMER,self.onTimer)
-    self.timer.Start(5000)
+    self.timer.Start(10000)
 
     self.Centre()
     self.Show()
@@ -49,7 +49,7 @@ class MainFrame(wx.Frame):
     self.__panel__=wx.Panel(self)
     mainbox=wx.BoxSizer(wx.VERTICAL)
     # generate TextCtrl fields as 'model'
-    self.text=self.__GenButton__(copy.deepcopy(self.paypy.model),[],fieldSize)
+    self.text=self.__GenText__(copy.deepcopy(self.paypy.model),[],fieldSize)
 
     self.paypy.calcallbal(self.data)
     self.paypy.setdata(self.date,self.data)
@@ -146,7 +146,7 @@ class MainFrame(wx.Frame):
 
     outgo_1_static_box=wx.StaticBox(self.__panel__,label=u'***')
     outgo_1_static_box_sizer=wx.wx.StaticBoxSizer(outgo_1_static_box,wx.VERTICAL)
-    outgo_1_static_box_sizer.AddMany([label13,self.text['rur']['out']['clients'],
+    outgo_1_static_box_sizer.AddMany([label13,self.text['rur']['outclients'],
                                       label14,self.text['rur']['plan'],
                                       label15,self.text['rur']['out']['mbk']])
 
@@ -196,12 +196,12 @@ class MainFrame(wx.Frame):
     outgo_box_total=wx.BoxSizer(wx.HORIZONTAL)
 
     self.fixtime=wx.StaticText(self.__panel__,-1)
-    self.fixtime.SetForegroundColour((255,0,0))
-    btnFix=wx.Button(self.__panel__,-1,u'Зафиксировать')
-    btnFix.Bind(wx.EVT_BUTTON,lambda event: self.onFix(event,src=['rur','outgo'],dst=['rur','outgofix']))
+    #self.fixtime.SetForegroundColour((255,0,0))
+    #btnFix=wx.Button(self.__panel__,-1,u'Зафиксировать')
+    #btnFix.Bind(wx.EVT_BUTTON,lambda event: self.onFix(event,src=['rur','outgo'],dst=['rur','outgofix']))
 
-    outgo_box_total.Add(btnFix)
-    outgo_box_total.Add(self.text['rur']['outgofix'])
+    #outgo_box_total.Add(btnFix)
+    #outgo_box_total.Add(self.text['rur']['outgofix'])
     outgo_box_total.Add(self.fixtime)
 
     outgo_static_box_sizer.Add(outgo_box_fields)
@@ -461,7 +461,7 @@ class MainFrame(wx.Frame):
 
     self.Update(self.text,[])
 
-  def __GenButton__(self,node,keys,size):
+  def __GenText__(self,node,keys,size):
     if not isinstance(node,dict):
       value=self.paypy.calc(self.data,keys)
       node=wx.TextCtrl(self.__panel__,-1,str(value),size,style=wx.TE_PROCESS_ENTER)
@@ -478,7 +478,7 @@ class MainFrame(wx.Frame):
     else:
       for key in node:
         keys.append(key)
-        node[key]=self.__GenButton__(node[key],keys,size)
+        node[key]=self.__GenText__(node[key],keys,size)
         keys.pop()
     return node
 
@@ -531,13 +531,14 @@ class MainFrame(wx.Frame):
         self.Update(node[key],keys)
         keys.pop()
     try:
-      self.fixtime.SetLabel(label=self.paypy.findnode(self.data,['rur','outgofix'])[0]['time'])
+      if keys==['rur','outgo']:
+        self.fixtime.SetLabel(label=self.paypy.findnode(self.data,['rur','outgofix'])[0]['time'])
     except:
       pass
  
   def onFix(self,e,src,dst):
-    self.paypy.setnode(self.data,dst,self.paypy.findnode(self.data,src))
-    self.paypy.setdata(self.date,self.data)
+    #self.paypy.setnode(self.data,dst,self.paypy.findnode(self.data,src))
+    #self.paypy.setdata(self.date,self.data)
     self.Update(self.text,[])
 
   def onQuit(self,e):
