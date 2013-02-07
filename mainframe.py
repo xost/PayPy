@@ -178,6 +178,8 @@ class MainFrame(wx.Frame):
     label_outgo=wx.StaticText(self.__panel__,label=u'Итого по расходу')
     label_outgo.SetForegroundColour((47,79,47))
     self.text['rur']['outgo'].SetForegroundColour((47,79,47))
+    self.fixtime=wx.StaticText(self.__panel__,-1)
+    self.fixtime.SetForegroundColour((255,0,0))
 
     outgo_4_box_sizer=wx.BoxSizer(wx.VERTICAL)
     outgo_4_static_box=wx.StaticBox(self.__panel__,label=u'Прочее')
@@ -187,6 +189,7 @@ class MainFrame(wx.Frame):
     outgo_4_box_sizer.Add(outgo_4_static_box_sizer,wx.EXPAND)
     outgo_4_box_sizer.Add(label_outgo)
     outgo_4_box_sizer.Add(self.text['rur']['outgo'])
+    outgo_4_box_sizer.Add(self.fixtime)
 
     outgo_box_fields.Add(outgo_1_static_box_sizer,proportion=1)
     outgo_box_fields.Add(outgo_2_static_box_sizer,proportion=1)
@@ -195,14 +198,13 @@ class MainFrame(wx.Frame):
 
     outgo_box_total=wx.BoxSizer(wx.HORIZONTAL)
 
-    self.fixtime=wx.StaticText(self.__panel__,-1)
     #self.fixtime.SetForegroundColour((255,0,0))
     #btnFix=wx.Button(self.__panel__,-1,u'Зафиксировать')
     #btnFix.Bind(wx.EVT_BUTTON,lambda event: self.onFix(event,src=['rur','outgo'],dst=['rur','outgofix']))
 
     #outgo_box_total.Add(btnFix)
     #outgo_box_total.Add(self.text['rur']['outgofix'])
-    outgo_box_total.Add(self.fixtime)
+    #outgo_box_total.Add(self.fixtime)
 
     outgo_static_box_sizer.Add(outgo_box_fields)
     outgo_static_box_sizer.Add(outgo_box_total)
@@ -532,7 +534,7 @@ class MainFrame(wx.Frame):
         keys.pop()
     try:
       if keys==['rur','outgo']:
-        self.fixtime.SetLabel(label=self.paypy.findnode(self.data,['rur','outgofix'])[0]['time'])
+        self.fixtime.SetLabel(label=self.paypy.findnode(self.data,['rur','outgo'])[0]['time'])
     except:
       pass
  

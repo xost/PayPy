@@ -17,7 +17,7 @@ class UsersDB(PersistentMapping):
       self.__dbroot__['all']
     except KeyError:
       self.__dbroot__['all']={'passwd':'111','size':(500,1000),'schem':{'blocks':['date','inbal','incom','outgo','outbal','val_corr','val_mmvb','val_kassa','val_open'],'readonly':[]}}
-      self.__dbroot__['rur']={'passwd':'222','size':(500,500),'schem':{'blocks':['date','inbal','incom','outgo','outbal'],'readonly':[['rur','outgo'],['rur','outgofix'],['rur','incomtotal']]}}
+      self.__dbroot__['rur']={'passwd':'222','size':(500,500),'schem':{'blocks':['date','inbal','incom','outgo','outbal'],'readonly':[['rur','outgofix'],['rur','incomtotal']]}}
       self.__dbroot__['val']={'passwd':'333','size':(500,800),'schem':{'blocks':['date','val_corr','val_mmvb','val_kassa','val_open'],'readonly':[]}}
       self.commit()
 

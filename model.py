@@ -92,5 +92,5 @@ class Model(object):
       block.append('outgofix')
     self.hide.extend(tmp)
 
-    self.outbal={'add':[['in'],['inbal']],'sub':[['out']]}
+    self.outbal={'add':[['in'],['inbal']],'sub':[['out'],['outclients']]}
     self.outclients={'add':[['outgo']],'sub':[['out']]}
