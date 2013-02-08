@@ -45,8 +45,10 @@ class MainFrame(wx.Frame):
     #menuBar.Append(fileMenu,'&File')
     #self.SetMenuBar(menuBar)
     #self.statusBar=self.CreateStatusBar()
-
-    self.__panel__=wx.Panel(self)
+    self.__panel__=wx.ScrolledWindow(self)
+    self.__panel__.SetScrollRate(1,1)
+    self.__panel__.EnableScrolling(True,True)
+    #self.__panel__=wx.Panel(self)
     mainbox=wx.BoxSizer(wx.VERTICAL)
     # generate TextCtrl fields as 'model'
     self.text=self.__GenText__(copy.deepcopy(self.paypy.model),[],fieldSize)
@@ -136,7 +138,7 @@ class MainFrame(wx.Frame):
 ###---BEGIN:RUB:OUTGO
     box['outgo']=wx.BoxSizer(wx.VERTICAL)
 
-    outgo_static_box=wx.StaticBox(self.__panel__,label=u'РАСХОД',id=200)
+    outgo_static_box=wx.StaticBox(self.__panel__,label=u'РАСХОД (Рейс 1)',id=200)
     outgo_static_box_sizer=wx.StaticBoxSizer(outgo_static_box,wx.VERTICAL)
 
     outgo_box_fields=wx.BoxSizer(wx.HORIZONTAL)
@@ -176,9 +178,9 @@ class MainFrame(wx.Frame):
 
     label22=wx.StaticText(self.__panel__,label=u'Валюта')
     label23=wx.StaticText(self.__panel__,label=u'Ценные бумаги')
-    label_outgo=wx.StaticText(self.__panel__,label=u'Итого по расходу')
-    label_outgo.SetForegroundColour((47,79,47))
-    self.text['rur']['outgo'].SetForegroundColour((47,79,47))
+    label_outgo=wx.StaticText(self.__panel__,label=u'РАСХОД (Рейс 1)')
+    label_outgo.SetForegroundColour((255,0,0))
+    self.text['rur']['outgo'].SetForegroundColour((255,0,0))
     self.fixtime=wx.StaticText(self.__panel__,-1)
     self.fixtime.SetForegroundColour((255,0,0))
 
@@ -212,6 +214,86 @@ class MainFrame(wx.Frame):
 
     box['outgo'].Add(outgo_static_box_sizer,wx.EXPAND|wx.ALL)
 ###---END:RUB:OUTGO
+
+###---BEGIN:RUB:OUTGO2
+    box['outgo2']=wx.BoxSizer(wx.VERTICAL)
+
+    outgo2_static_box=wx.StaticBox(self.__panel__,label=u'РАСХОД (Рейс 2)',id=250)
+    outgo2_static_box_sizer=wx.StaticBoxSizer(outgo2_static_box,wx.VERTICAL)
+
+    outgo2_box_fields=wx.BoxSizer(wx.HORIZONTAL)
+
+    label213=wx.StaticText(self.__panel__,label=u'Платежи клиентов')
+    label214=wx.StaticText(self.__panel__,label=u'План')
+    label215=wx.StaticText(self.__panel__,label=u'МБК')
+
+    outgo2_1_static_box=wx.StaticBox(self.__panel__,label=u'***')
+    outgo2_1_static_box_sizer=wx.wx.StaticBoxSizer(outgo2_1_static_box,wx.VERTICAL)
+    outgo2_1_static_box_sizer.AddMany([label213,self.text['rur']['outclients2'],
+                                      label214,self.text['rur']['plan2'],
+                                      label215,self.text['rur']['out2']['mbk']])
+
+    label216=wx.StaticText(self.__panel__,label=u'Валюта')
+    label217=wx.StaticText(self.__panel__,label=u'ГКО, ОФЗ')
+    label218=wx.StaticText(self.__panel__,label=u'Облигации, акции')
+
+    outgo2_2_static_box=wx.StaticBox(self.__panel__,label=u'ММВБ')
+    outgo2_2_static_box_sizer=wx.wx.StaticBoxSizer(outgo2_2_static_box,wx.VERTICAL)
+    outgo2_2_static_box_sizer.AddMany([label216,self.text['rur']['out2']['mmvb_val'],
+                                      label217,self.text['rur']['out2']['mmvb_gko'],
+                                      label218,self.text['rur']['out2']['mmvb_oblig']])
+
+    label219=wx.StaticText(self.__panel__,label=u'ГИБ')
+    label220=wx.StaticText(self.__panel__,label=u'Прочие')
+    label221=wx.StaticText(self.__panel__,label=u'Платежи ГИБ')
+
+    outgo2_3_box_sizer=wx.BoxSizer(wx.VERTICAL)
+    outgo2_3_static_box=wx.StaticBox(self.__panel__,label=u'Векселя')
+    outgo2_3_static_box_sizer=wx.wx.StaticBoxSizer(outgo2_3_static_box,wx.VERTICAL)
+    outgo2_3_static_box_sizer.AddMany([label219,self.text['rur']['out2']['veks_gib'],
+                                      label220,self.text['rur']['out2']['veks_other']])
+    outgo2_3_box_sizer.Add(outgo2_3_static_box_sizer,wx.EXPAND)
+    outgo2_3_box_sizer.Add(label221)
+    outgo2_3_box_sizer.Add(self.text['rur']['out2']['gib'])
+
+    label222=wx.StaticText(self.__panel__,label=u'Валюта')
+    label223=wx.StaticText(self.__panel__,label=u'Ценные бумаги')
+    label_outgo2=wx.StaticText(self.__panel__,label=u'РАСХОД (Рейс 2)')
+    label_outgo2.SetForegroundColour((255,0,0))
+    self.text['rur']['outgo2'].SetForegroundColour((255,0,0))
+    self.fixtime2=wx.StaticText(self.__panel__,-1)
+    self.fixtime2.SetForegroundColour((255,0,0))
+
+    outgo2_4_box_sizer=wx.BoxSizer(wx.VERTICAL)
+    outgo2_4_static_box=wx.StaticBox(self.__panel__,label=u'Прочее')
+    outgo2_4_static_box_sizer=wx.wx.StaticBoxSizer(outgo2_4_static_box,wx.VERTICAL)
+    outgo2_4_static_box_sizer.AddMany([label222,self.text['rur']['out2']['other_val'],
+                                      label223,self.text['rur']['out2']['other_cenbum']])
+    outgo2_4_box_sizer.Add(outgo2_4_static_box_sizer,wx.EXPAND)
+    outgo2_4_box_sizer.Add(label_outgo2)
+    outgo2_4_box_sizer.Add(self.text['rur']['outgo2'])
+    outgo2_4_box_sizer.Add(self.fixtime2)
+
+    outgo2_box_fields.Add(outgo2_1_static_box_sizer,proportion=1)
+    outgo2_box_fields.Add(outgo2_2_static_box_sizer,proportion=1)
+    outgo2_box_fields.Add(outgo2_3_box_sizer,proportion=1)
+    outgo2_box_fields.Add(outgo2_4_box_sizer,proportion=1)
+
+    outgo2_box_total=wx.BoxSizer(wx.HORIZONTAL)
+
+    #self.fixtime.SetForegroundColour((255,0,0))
+    #btnFix=wx.Button(self.__panel__,-1,u'Зафиксировать')
+    #btnFix.Bind(wx.EVT_BUTTON,lambda event: self.onFix(event,src=['rur','outgo'],dst=['rur','outgofix']))
+
+    #outgo_box_total.Add(btnFix)
+    #outgo_box_total.Add(self.text['rur']['outgofix'])
+    #outgo_box_total.Add(self.fixtime)
+
+    outgo2_static_box_sizer.Add(outgo2_box_fields)
+    outgo2_static_box_sizer.Add(outgo2_box_total)
+
+    box['outgo2'].Add(outgo2_static_box_sizer,wx.EXPAND|wx.ALL)
+###---END:RUB:OUTGO2
 
 ###---BEGIN:RUB:OUTBAL
     label25=wx.StaticText(self.__panel__,label=u'Исходящий остаток:')
@@ -449,6 +531,7 @@ class MainFrame(wx.Frame):
     mainbox.Add(box['inbal'])
     mainbox.Add(box['incom'])
     mainbox.Add(box['outgo'])
+    mainbox.Add(box['outgo2'])
     mainbox.Add(box['outbal'])
     mainbox.Add(box['val_corr'])
     mainbox.Add(box['val_mmvb'])
@@ -536,6 +619,8 @@ class MainFrame(wx.Frame):
     try:
       if keys==['rur','outgo']:
         self.fixtime.SetLabel(label=self.paypy.findnode(self.data,['rur','outgo'])[0]['time'])
+      if keys==['rur','outgo2']:
+        self.fixtime2.SetLabel(label=self.paypy.findnode(self.data,['rur','outgo2'])[0]['time'])
     except:
       pass
  

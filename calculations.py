@@ -40,10 +40,13 @@ class Calculations(model.Model):
   def __calcnode__(self,data):
     result=0.0
     if not isinstance(data,dict):
-      for item in data:
-        if 'value' in item:
-          result+=item['value']
-      return result
+      try:
+        for item in data:
+          if 'value' in item:
+            result+=item['value']
+        return result
+      except:
+        pass
     else:
       for item in data:
         result+=self.__calcnode__(data[item])
@@ -67,6 +70,21 @@ class Calculations(model.Model):
     value=add-sub
     tmp=block[:]
     tmp.append('outclients')
+    self.setnode(data,tmp,[{'value':value,'time':self.time(),'description':'Client payments %s' %(block)}])
+    value=0.0
+    add=0.0
+    sub=0.0
+    for operation, keys in self.outclients2.items():
+      for i in keys:
+        key=block[:]
+        key.extend(i)
+        if operation=='add':
+          add+=self.calc(data,key)
+        else:
+          sub+=self.calc(data,key)
+    value=add-sub
+    tmp=block[:]
+    tmp.append('outclients2')
     self.setnode(data,tmp,[{'value':value,'time':self.time(),'description':'Client payments %s' %(block)}])
     value=0.0
     add=0.0
