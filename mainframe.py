@@ -73,7 +73,7 @@ class MainFrame(wx.Frame):
 ###---END:RUB:INBAL
 
 ###---BEGIN:RUB:INCOM
-    box['incom']=wx.BoxSizer(wx.HORIZONTAL)
+    box['incom']=wx.BoxSizer(wx.VERTICAL)
 
     incom_static_box=wx.StaticBox(self.__panel__,100,label=u'Приход')
     incom_static_box_sizer=wx.StaticBoxSizer(incom_static_box,wx.HORIZONTAL)
@@ -128,6 +128,7 @@ class MainFrame(wx.Frame):
     incom_static_box_sizer.Add(incom_mmvb_static_box_sizer,proportion=1)
     incom_static_box_sizer.Add(incom_3_box_sizer,proportion=1)
     incom_static_box_sizer.Add(incom_other_static_box_sizer,proportion=1)
+
 
     box['incom'].Add(incom_static_box_sizer,wx.EXPAND|wx.ALL)
 ###---END:RUB:INCOM
