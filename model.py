@@ -115,9 +115,6 @@ class Model(object):
       block.append('outclients2')
     self.hide.extend(tmp)
     tmp=copy.deepcopy(self.blocks)
-    for block in tmp:
-      block.append('outgofix')
-    self.hide.extend(tmp)
 
     self.outbal={'add':[['in'],['inbal']],'sub':[['out'],['out2'],['outclients'],['outclients2']]}
     self.outclients={'add':[['outgo']],'sub':[['out']]}

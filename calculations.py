@@ -102,14 +102,13 @@ class Calculations(model.Model):
     tmp=block[:]
     tmp.append('outbal')
     self.setnode(data,tmp,[{'value':value,'time':self.time(),'description':'Outgoing ballance for %s' %(block)}])
-    #tmp.pop()
-    #tmp.append('outgo')
-    #value=self.findnode(data,tmp)
-    #self.setnode(data,tmp,[{'value':sub,'time':self.time(),'description':'Outgoing total for %s' %(block)}])
     tmp.pop()
     tmp.append('incomtotal')
     value=self.findnode(data,tmp)
     self.setnode(data,tmp,[{'value':add,'time':self.time(),'description':'Incoming total for %s' %(block)}])
+    outgo1=self.findnode(data,['rur','outgo'])[0]['value']
+    outgo2=self.findnode(data,['rur','outgo2'])[0]['value']
+    self.setnode(data,['rur','outgofix'],[{'value':outgo1+outgo2,'time':self.time(),'description':'Incoming total for %s' %(block)}])
  
   def calcallbal(self,data):
     try:
