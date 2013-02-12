@@ -106,9 +106,13 @@ class Calculations(model.Model):
     tmp.append('incomtotal')
     value=self.findnode(data,tmp)
     self.setnode(data,tmp,[{'value':add,'time':self.time(),'description':'Incoming total for %s' %(block)}])
-    outgo1=self.findnode(data,['rur','outgo'])[0]['value']
-    outgo2=self.findnode(data,['rur','outgo2'])[0]['value']
-    self.setnode(data,['rur','outgofix'],[{'value':outgo1+outgo2,'time':self.time(),'description':'Incoming total for %s' %(block)}])
+    try:
+      outgo1=self.findnode(data,['rur','outgo'])[0]['value']
+      outgo2=self.findnode(data,['rur','outgo2'])[0]['value']
+    except:
+      pass
+    else:
+      self.setnode(data,['rur','outgofix'],[{'value':outgo1+outgo2,'time':self.time(),'description':'Incoming total for %s' %(block)}])
  
   def calcallbal(self,data):
     try:
