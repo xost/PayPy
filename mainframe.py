@@ -296,14 +296,12 @@ class MainFrame(wx.Frame):
 ###---END:RUB:OUTGO2
 
 ###---BEGIN:RUB:OUTGOTOTAL
+    box_outgofix=wx.BoxSizer(wx.VERTICAL)
     label225=wx.StaticText(self.__panel__,label=u'Итого по расходу:')
     box['outgofix']=wx.BoxSizer(wx.HORIZONTAL)
     box['outgofix'].Add(label225)
     box['outgofix'].Add(self.text['rur']['outgofix'])
-    try:
-      print self.text['rur']['outgofix'].GetValue()
-    except:
-      pass
+    box_outgofix.Add(box['outgofix'],0,wx.EXPAND|wx.RIGHT)
 ###---END:RUB:OUTGOTOTAL
 
 ###---BEGIN:RUB:OUTBAL
@@ -543,7 +541,8 @@ class MainFrame(wx.Frame):
     mainbox.Add(box['incom'])
     mainbox.Add(box['outgo'])
     mainbox.Add(box['outgo2'])
-    mainbox.Add(box['outgofix'])
+    #mainbox.Add(box['outgofix'])
+    mainbox.Add(box_outgofix)
     mainbox.Add(box['outbal'])
     mainbox.Add(box['val_corr'])
     mainbox.Add(box['val_mmvb'])
@@ -565,8 +564,6 @@ class MainFrame(wx.Frame):
       node=wx.TextCtrl(self.__panel__,-1,str(value),size,style=wx.TE_PROCESS_ENTER)
       if keys in self.paypy.hide:
         node.Show(False)
-        if 'rur' in keys:
-          print keys
       elif keys in self.paypy.editable and not keys in self.schem['readonly']:
         node.Bind(wx.EVT_TEXT_ENTER,lambda event, k=keys[:]: self.onEnter(event,k))
       elif keys in self.paypy.readonly or keys in self.schem['readonly']:
