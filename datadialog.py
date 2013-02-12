@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import wx
 import datetime
@@ -17,7 +18,6 @@ class DataDialog(wx.Dialog):
   __call__=__init__
 
   def initUI(self):
-
     listSizer=wx.BoxSizer(wx.VERTICAL)
     self.dataList=wx.ListCtrl(self,-1,style=wx.LC_REPORT,size=(394,200))
     self.dataList.InsertColumn(0,'value')
@@ -31,21 +31,21 @@ class DataDialog(wx.Dialog):
     listSizer.Add(self.dataList)
 
     textSizer=wx.BoxSizer(wx.HORIZONTAL)
-    label=wx.StaticText(self,-1,label='new value:')
+    label=wx.StaticText(self,-1,label=u'Сумма:')
     self.text=wx.TextCtrl(self,1,style=wx.TE_PROCESS_ENTER)
     textSizer.Add(label)
     textSizer.Add(self.text)
 
     descrSizer=wx.BoxSizer(wx.HORIZONTAL)
-    label2=wx.StaticText(self,-1,label='description:')
+    label2=wx.StaticText(self,-1,label=u'Комментарий:')
     self.descr=wx.TextCtrl(self,2,style=wx.TE_PROCESS_ENTER)
     descrSizer.Add(label2)
     descrSizer.Add(self.descr)
 
     btnsSizer=wx.BoxSizer(wx.HORIZONTAL)
-    btnOk=wx.Button(self,3,'OK')
-    btnClose=wx.Button(self,4,'Close')
-    btnDelete=wx.Button(self,5,'Delete')
+    btnOk=wx.Button(self,3,u'Сохранить')
+    btnClose=wx.Button(self,4,u'Готово')
+    btnDelete=wx.Button(self,5,u'Удалить')
     btnsSizer.Add(btnOk)
     btnsSizer.Add(btnClose)
     btnsSizer.Add(btnDelete)
@@ -103,4 +103,5 @@ class DataDialog(wx.Dialog):
       self.parent.paypy.setdata(self.parent.date,self.parent.data)
   
   def onClose(self,event):
+    self.onOk(event)
     self.Destroy()

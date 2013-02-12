@@ -60,5 +60,6 @@ class AuthFrame(wx.Frame):
     self.accessSizer.Show(self.label0,True)
 
   def onClose(self,e):
+    del(self.__users__)
     self.Destroy()
 
