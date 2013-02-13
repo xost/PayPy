@@ -103,8 +103,8 @@ class MainFrame(wx.Frame):
     label8=wx.StaticText(self.__panel__,label=u'МБК')
     label9=wx.StaticText(self.__panel__,label=u'Клиенты')
     label_incom=wx.StaticText(self.__panel__,label=u'Итого по приходу')
-    label_incom.SetForegroundColour((47,79,47))
-    self.text['rur']['incomtotal'].SetForegroundColour((47,79,47))
+    label_incom.SetForegroundColour((0,128,0))
+    self.text['rur']['incomtotal'].SetForegroundColour((0,128,0))
 
     incom_3_box_sizer=wx.BoxSizer(wx.VERTICAL)
     incom_3_static_box=wx.StaticBox(self.__panel__,label=u'***')
@@ -132,7 +132,7 @@ class MainFrame(wx.Frame):
     incom_static_box_sizer.Add(incom_other_static_box_sizer,proportion=1)
 
 
-    box['incom'].Add(incom_static_box_sizer,wx.EXPAND|wx.ALL)
+    box['incom'].Add(incom_static_box_sizer,1,wx.EXPAND|wx.ALIGN_RIGHT)
 ###---END:RUB:INCOM
 
 ###---BEGIN:RUB:OUTGO
@@ -142,6 +142,15 @@ class MainFrame(wx.Frame):
     outgo_static_box_sizer=wx.StaticBoxSizer(outgo_static_box,wx.VERTICAL)
 
     outgo_box_fields=wx.BoxSizer(wx.HORIZONTAL)
+
+    self.text['rur']['outgoplan'].SetForegroundColour((255,0,0))
+
+    outgoplan_1_static_box=wx.StaticBox(self.__panel__,label=u'С учётом плана')
+    outgoplan_1_static_box_sizer=wx.wx.StaticBoxSizer(outgoplan_1_static_box,wx.VERTICAL)
+    outgoplan_1_static_box_sizer.Add(self.text['rur']['outgoplan'])
+#    outgoplan_1_static_box_sizer.AddMany([wx.StaticText(self.__panel__,label=u'С учётом'),
+#                                          wx.StaticText(self.__panel__,label=u'плана'),
+#                                          self.text['rur']['outgoplan']])
 
     label13=wx.StaticText(self.__panel__,label=u'Платежи клиентов')
     label14=wx.StaticText(self.__panel__,label=u'План')
@@ -194,6 +203,7 @@ class MainFrame(wx.Frame):
     outgo_4_box_sizer.Add(self.text['rur']['outgo'])
     outgo_4_box_sizer.Add(self.fixtime)
 
+    outgo_box_fields.Add(outgoplan_1_static_box_sizer,proportion=1)
     outgo_box_fields.Add(outgo_1_static_box_sizer,proportion=1)
     outgo_box_fields.Add(outgo_2_static_box_sizer,proportion=1)
     outgo_box_fields.Add(outgo_3_box_sizer,proportion=1)
@@ -222,6 +232,12 @@ class MainFrame(wx.Frame):
     outgo2_static_box_sizer=wx.StaticBoxSizer(outgo2_static_box,wx.VERTICAL)
 
     outgo2_box_fields=wx.BoxSizer(wx.HORIZONTAL)
+
+    self.text['rur']['outgoplan2'].SetForegroundColour((255,0,0))
+
+    outgoplan2_1_static_box=wx.StaticBox(self.__panel__,label=u'С учётом плана')
+    outgoplan2_1_static_box_sizer=wx.wx.StaticBoxSizer(outgoplan2_1_static_box,wx.VERTICAL)
+    outgoplan2_1_static_box_sizer.Add(self.text['rur']['outgoplan2'])
 
     label213=wx.StaticText(self.__panel__,label=u'Платежи клиентов')
     label214=wx.StaticText(self.__panel__,label=u'План')
@@ -274,6 +290,7 @@ class MainFrame(wx.Frame):
     outgo2_4_box_sizer.Add(self.text['rur']['outgo2'])
     outgo2_4_box_sizer.Add(self.fixtime2)
 
+    outgo2_box_fields.Add(outgoplan2_1_static_box_sizer,proportion=1)
     outgo2_box_fields.Add(outgo2_1_static_box_sizer,proportion=1)
     outgo2_box_fields.Add(outgo2_2_static_box_sizer,proportion=1)
     outgo2_box_fields.Add(outgo2_3_box_sizer,proportion=1)
@@ -298,6 +315,8 @@ class MainFrame(wx.Frame):
 ###---BEGIN:RUB:OUTGOTOTAL
     box_outgofix=wx.BoxSizer(wx.VERTICAL)
     label225=wx.StaticText(self.__panel__,label=u'Итого по расходу:')
+    label225.SetForegroundColour((0,128,0))
+    self.text['rur']['outgofix'].SetForegroundColour((0,128,0))
     box['outgofix']=wx.BoxSizer(wx.HORIZONTAL)
     box['outgofix'].Add(label225)
     box['outgofix'].Add(self.text['rur']['outgofix'])
@@ -306,6 +325,8 @@ class MainFrame(wx.Frame):
 
 ###---BEGIN:RUB:OUTBAL
     label25=wx.StaticText(self.__panel__,label=u'Исходящий остаток:')
+    label25.SetForegroundColour((0,0,255))
+    self.text['rur']['outbal'].SetForegroundColour((0,0,255))
     box['outbal']=wx.BoxSizer(wx.HORIZONTAL)
     box['outbal'].Add(label25)
     box['outbal'].Add(self.text['rur']['outbal'])

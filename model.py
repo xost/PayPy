@@ -19,6 +19,8 @@ class Model(object):
          'plan2':[],
          'outclients':[],
          'outclients2':[],
+         'outgoplan':[],
+         'outgoplan2':[],
          'in':{'reises':[],
                'inkas':[],
                'veks':[],
@@ -70,7 +72,7 @@ class Model(object):
     self.blocks=[['rur'],['val','corr','usd'],['val','corr','eur'],['val','mmvb','usd'],['val','mmvb','eur'],['val','mmvb','rur'],['val','kassa','usd'],['val','kassa','eur'],['val','open','usd'],['val','open','eur']]
 
     self.editable=[['rur','inbal'],['rur','outgo'],['rur','outgo2']]
-    self.readonly=[['rur','outbal'],['rur','outgofix'],['rur','incomtotal'],['rur','outclients'],['rur','outclients2']]
+    self.readonly=[['rur','outbal'],['rur','outgofix'],['rur','incomtotal'],['rur','outclients'],['rur','outclients2'],['rur','outgoplan'],['rur','outgoplan2']]
 
     # Поля которые будут скрыты. Сркыты все поля 'outgo' 'outgofix' 'incomtotal', кроме блока 'rur'
     self.hide=[]
@@ -114,8 +116,9 @@ class Model(object):
     for block in tmp:
       block.append('outclients2')
     self.hide.extend(tmp)
-    tmp=copy.deepcopy(self.blocks)
 
     self.outbal={'add':[['in'],['inbal']],'sub':[['out'],['out2'],['outclients'],['outclients2']]}
     self.outclients={'add':[['outgo']],'sub':[['out']]}
     self.outclients2={'add':[['outgo2']],'sub':[['out2']]}
+    self.outgoplan={'add':[['out'],['plan'],['outclients']]}
+    self.outgoplan2={'add':[['outgo2'],['plan2']]}

@@ -89,6 +89,36 @@ class Calculations(model.Model):
     value=0.0
     add=0.0
     sub=0.0
+    for operation, keys in self.outgoplan.items():
+      for i in keys:
+        key=block[:]
+        key.extend(i)
+        if operation=='add':
+          add+=self.calc(data,key)
+        else:
+          sub+=self.calc(data,key)
+    value=add-sub
+    tmp=block[:]
+    tmp.append('outgoplan')
+    self.setnode(data,tmp,[{'value':value,'time':self.time(),'description':'Client payments %s' %(block)}])
+    value=0.0
+    add=0.0
+    sub=0.0
+    for operation, keys in self.outgoplan2.items():
+      for i in keys:
+        key=block[:]
+        key.extend(i)
+        if operation=='add':
+          add+=self.calc(data,key)
+        else:
+          sub+=self.calc(data,key)
+    value=add-sub
+    tmp=block[:]
+    tmp.append('outgoplan2')
+    self.setnode(data,tmp,[{'value':value,'time':self.time(),'description':'Client payments %s' %(block)}])
+    value=0.0
+    add=0.0
+    sub=0.0
     for operation, keys in self.outbal.items():
       for i in keys:
         key=block[:]
