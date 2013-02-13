@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from ZODB import FileStorage, DB
+from ZODB.config import storageFromURL
 from persistent.mapping import PersistentMapping
 import transaction
 import copy
@@ -9,7 +10,8 @@ import logging
 class UsersDB(PersistentMapping):
   def __init__(self,dbfn='Users.db',loglevel=''):
     #connect to database
-    self.__storage__=FileStorage.FileStorage(dbfn)
+    #self.__storage__=FileStorage.FileStorage(dbfn)
+    self.__storage__=storageFromURL('usersdb.conf')
     self.__db__=DB(self.__storage__)
     self.__connection__=self.__db__.open()
     self.__dbroot__=self.__connection__.root()

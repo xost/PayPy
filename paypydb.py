@@ -16,7 +16,7 @@ class PayPyDB(calculations.Calculations):
     #connect to database
     logging.basicConfig()
     #self.__storage__=FileStorage.FileStorage(dbfn)
-    self.__storage__=storageFromURL('storage.conf')
+    self.__storage__=storageFromURL('paypydb.conf')
     self.__db__=DB(self.__storage__)
     self.__connection__=self.__db__.open()
     self.__dbroot__=self.__connection__.root()
