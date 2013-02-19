@@ -143,15 +143,6 @@ class MainFrame(wx.Frame):
 
     outgo_box_fields=wx.BoxSizer(wx.HORIZONTAL)
 
-    self.text['rur']['outgoplan'].SetForegroundColour((255,0,0))
-
-    outgoplan_1_static_box=wx.StaticBox(self.__panel__,label=u'С учётом плана')
-    outgoplan_1_static_box_sizer=wx.wx.StaticBoxSizer(outgoplan_1_static_box,wx.VERTICAL)
-    outgoplan_1_static_box_sizer.Add(self.text['rur']['outgoplan'])
-#    outgoplan_1_static_box_sizer.AddMany([wx.StaticText(self.__panel__,label=u'С учётом'),
-#                                          wx.StaticText(self.__panel__,label=u'плана'),
-#                                          self.text['rur']['outgoplan']])
-
     label13=wx.StaticText(self.__panel__,label=u'Платежи клиентов')
     label14=wx.StaticText(self.__panel__,label=u'План')
     label15=wx.StaticText(self.__panel__,label=u'МБК')
@@ -203,24 +194,20 @@ class MainFrame(wx.Frame):
     outgo_4_box_sizer.Add(self.text['rur']['outgo'])
     outgo_4_box_sizer.Add(self.fixtime)
 
-    outgo_box_fields.Add(outgoplan_1_static_box_sizer,proportion=1)
     outgo_box_fields.Add(outgo_1_static_box_sizer,proportion=1)
     outgo_box_fields.Add(outgo_2_static_box_sizer,proportion=1)
     outgo_box_fields.Add(outgo_3_box_sizer,proportion=1)
     outgo_box_fields.Add(outgo_4_box_sizer,proportion=1)
 
-    outgo_box_total=wx.BoxSizer(wx.HORIZONTAL)
+    outgo_plan_box=wx.BoxSizer(wx.HORIZONTAL)
 
-    #self.fixtime.SetForegroundColour((255,0,0))
-    #btnFix=wx.Button(self.__panel__,-1,u'Зафиксировать')
-    #btnFix.Bind(wx.EVT_BUTTON,lambda event: self.onFix(event,src=['rur','outgo'],dst=['rur','outgofix']))
+    self.text['rur']['outgoplan'].SetForegroundColour((255,0,0))
 
-    #outgo_box_total.Add(btnFix)
-    #outgo_box_total.Add(self.text['rur']['outgofix'])
-    #outgo_box_total.Add(self.fixtime)
+    outgo_plan_box.Add(wx.StaticText(self.__panel__,label=u'С учётом плана: '))
+    outgo_plan_box.Add(self.text['rur']['outgoplan'])
 
     outgo_static_box_sizer.Add(outgo_box_fields)
-    outgo_static_box_sizer.Add(outgo_box_total)
+    outgo_static_box_sizer.Add(outgo_plan_box)
 
     box['outgo'].Add(outgo_static_box_sizer,wx.EXPAND|wx.ALL)
 ###---END:RUB:OUTGO
@@ -232,12 +219,6 @@ class MainFrame(wx.Frame):
     outgo2_static_box_sizer=wx.StaticBoxSizer(outgo2_static_box,wx.VERTICAL)
 
     outgo2_box_fields=wx.BoxSizer(wx.HORIZONTAL)
-
-    self.text['rur']['outgoplan2'].SetForegroundColour((255,0,0))
-
-    outgoplan2_1_static_box=wx.StaticBox(self.__panel__,label=u'С учётом плана')
-    outgoplan2_1_static_box_sizer=wx.wx.StaticBoxSizer(outgoplan2_1_static_box,wx.VERTICAL)
-    outgoplan2_1_static_box_sizer.Add(self.text['rur']['outgoplan2'])
 
     label213=wx.StaticText(self.__panel__,label=u'Платежи клиентов')
     label214=wx.StaticText(self.__panel__,label=u'План')
@@ -290,24 +271,20 @@ class MainFrame(wx.Frame):
     outgo2_4_box_sizer.Add(self.text['rur']['outgo2'])
     outgo2_4_box_sizer.Add(self.fixtime2)
 
-    outgo2_box_fields.Add(outgoplan2_1_static_box_sizer,proportion=1)
     outgo2_box_fields.Add(outgo2_1_static_box_sizer,proportion=1)
     outgo2_box_fields.Add(outgo2_2_static_box_sizer,proportion=1)
     outgo2_box_fields.Add(outgo2_3_box_sizer,proportion=1)
     outgo2_box_fields.Add(outgo2_4_box_sizer,proportion=1)
 
-    outgo2_box_total=wx.BoxSizer(wx.HORIZONTAL)
+    outgo2_plan_box=wx.BoxSizer(wx.HORIZONTAL)
 
-    #self.fixtime.SetForegroundColour((255,0,0))
-    #btnFix=wx.Button(self.__panel__,-1,u'Зафиксировать')
-    #btnFix.Bind(wx.EVT_BUTTON,lambda event: self.onFix(event,src=['rur','outgo'],dst=['rur','outgofix']))
+    self.text['rur']['outgoplan2'].SetForegroundColour((255,0,0))
 
-    #outgo_box_total.Add(btnFix)
-    #outgo_box_total.Add(self.text['rur']['outgofix'])
-    #outgo_box_total.Add(self.fixtime)
+    outgo2_plan_box.Add(wx.StaticText(self.__panel__,label=u'С учётом плана: '))
+    outgo2_plan_box.Add(self.text['rur']['outgoplan2'])
 
     outgo2_static_box_sizer.Add(outgo2_box_fields)
-    outgo2_static_box_sizer.Add(outgo2_box_total)
+    outgo2_static_box_sizer.Add(outgo2_plan_box)
 
     box['outgo2'].Add(outgo2_static_box_sizer,wx.EXPAND|wx.ALL)
 ###---END:RUB:OUTGO2
