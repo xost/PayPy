@@ -10,8 +10,10 @@ import logging
 class UsersDB(PersistentMapping):
   def __init__(self,dbfn='Users.db',new=False,loglevel=''):
     #connect to database
-    #self.__storage__=FileStorage.FileStorage(dbfn)
-    self.__storage__=storageFromURL('usersdb.conf')
+    try:
+      self.__storage__=storageFromURL('usersdb.conf')
+    except:
+      self.__storage__=FileStorage.FileStorage(dbfn)
     self.__db__=DB(self.__storage__)
     self.__connection__=self.__db__.open()
     self.__dbroot__=self.__connection__.root()
